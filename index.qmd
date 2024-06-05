@@ -1,15 +1,15 @@
 ---
-title: "My website and data analysis portfolio"
+title: "Seth Harris Data Analysis Portfolio"
 ---
 
-# Hello
+# Howdy y'all!
 
-### And hello again
+Welcome to **my website** and *data analysis portfolio.*
 
-Welcome to **my website** and _data analysis portfolio._ 
+-   Please use the `Menu Bar` above to look around.
+-   Feel free to navigate around my website on the various sections shown above:
+    -   About Me: Learn more about my background, education, and interests.
+    -   Projects: Check out some of the exciting data analysis projects I've worked on during my DA 6833 Practicum II course.
+-   Connect with me on [LinkedIn](https://www.linkedin.com/in/seth-harris-b4976a200/): Stay in touch and follow my professional journey!
 
-
-* Please use the `Menu Bar` above to look around.
-* Have fun!
-
-**Feel free to change this text any way you want 😁!**
+Thank you for visiting, and I hope you find my work both interesting and informative!
