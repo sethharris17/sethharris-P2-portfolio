@@ -1,7 +1,7 @@
 ---
 title: "Manuscript/Report Template for a Data Analysis Project"
 subtitle: ""
-author: Your Name
+author: Seth Harris
 date: today
 format:
   html:
@@ -40,6 +40,8 @@ _Provide enough background on your topic that others can understand the why and 
 
 ## Description of data and data source
 _Describe what the data is, what it contains, where it is from, etc. Eventually this might be part of a methods section._
+The exampledata.xlsx is the original dataset given. The dataset is composed of several variables, such as Height, Weight and Gender columns of a sample population. I added two more columns to the original dataset, one being numerical and the other being categorical. This data demonstrates data analysis that is used in R. My two added columns were WorkHoursPerWeek and EducationLevel to demonstrate the number of hours worked per week (numerical) and highest level of education attained (categorical) with the descriptions of my new variables being added in the Codebook sheet. I then saved it as exampledata2.xlsx.
+
 
 ## Questions/Hypotheses to be addressed
 _State the research questions you plan to answer with this analysis._
