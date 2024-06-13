@@ -99,12 +99,10 @@ knitr::kable(resulttable)
 knitr::include_graphics(here("starter-analysis-exercise","results","figures","height-weight-stratified.png"))
 ```
 
-
-
-
 ```{r}
 # Load necessary libraries
 library(ggplot2)
+library(here)
 
 # Create a boxplot of Height by Education Level
 p_boxplot <- ggplot(mydata, aes(x = EducationLevel, y = Height)) +
@@ -139,7 +137,6 @@ ggsave("scatterplot.png", plot = p_scatterplot)
 
 ```
 
-
 ## Full analysis
 
 *Use one or several suitable statistical/machine learning methods to analyze your data and to produce meaningful figures, tables, etc. This might again be code that is best placed in one or several separate R scripts that need to be well documented. You want the code to produce figures and data ready for display as tables, and save those. Then you load them here.*
@@ -155,23 +152,12 @@ knitr::kable(resulttable2)
 ```
 
 ```{r}
-#| label: tbl-resulttable2
-#| tbl-cap: "Linear model fit table."
+#| label: tbl-resulttable3
+#| tbl-cap: "Another linear model fit table."
 #| echo: FALSE
 resulttable3 = readRDS(here("starter-analysis-exercise","results","tables-files","resulttable3.rds"))
 knitr::kable(resulttable3)
 ```
-
-
-
-
-
-
-
-
-
-
-
 
 {{< pagebreak >}}
 
@@ -179,10 +165,9 @@ knitr::kable(resulttable3)
 
 ## Summary and Interpretation
 
-
 The boxplot shows that individuals with a Bachelor's degree tend to have the highest median height, followed by those with a Master's degree. Individuals with an Associate's degree have the lowest median height. There are also notable outliers among those with an Associate's degree. The categories "None" and "PhD" have very limited data, showing a narrower range of heights.
 
-The scatterplot shows no linear relationship between the variables. Data points are scattered widely across the plot, indicating that weight does not consistently predict the number of work hours per week for the individuals in the dataset. 
+The scatterplot shows no linear relationship between the variables. Data points are scattered widely across the plot, indicating that weight does not consistently predict the number of work hours per week for the individuals in the dataset.
 
 resulttable3.rds - output: The linear model fit table shows that the intercept is significant with a p-value of 0.034. However, none of the work hours per week predictors are statistically significant, with p-values ranging from 0.17 to 0.78, and the education level predictors were not included in the model due to missing data.
 
@@ -192,13 +177,11 @@ resulttable3.rds - output: The linear model fit table shows that the intercept i
 
 ## Summary and Interpretation
 
-
 The boxplot shows that individuals with a Bachelor's degree tend to have the highest median height, followed by those with a Master's degree. Individuals with an Associate's degree have the lowest median height. There are also notable outliers among those with an Associate's degree. The categories "None" and "PhD" have very limited data, showing a narrower range of heights.
 
-The scatterplot shows no linear relationship between the variables. Data points are scattered widely across the plot, indicating that weight does not consistently predict the number of work hours per week for the individuals in the dataset. 
+The scatterplot shows no linear relationship between the variables. Data points are scattered widely across the plot, indicating that weight does not consistently predict the number of work hours per week for the individuals in the dataset.
 
 resulttable3.rds - output: The linear model fit table shows that the intercept is significant with a p-value of 0.034. However, none of the work hours per week predictors are statistically significant, with p-values ranging from 0.17 to 0.78, and the education level predictors were not included in the model due to missing data.
-
 
 ## Conclusions
 
