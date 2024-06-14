@@ -1,4 +1,5 @@
 ---
+---
 title: "Manuscript/Report Template for a Data Analysis Project"
 subtitle: ""
 author: Seth Harris
@@ -103,6 +104,12 @@ knitr::include_graphics(here("starter-analysis-exercise","results","figures","he
 # Load necessary libraries
 library(ggplot2)
 library(here)
+
+
+#Path to data. Note the use of the here() package and not absolute paths
+data_location <- here::here("starter-analysis-exercise","data","processed-data","processeddata2.rds")
+#load data
+mydata <- readRDS(data_location)
 
 # Create a boxplot of Height by Education Level
 p_boxplot <- ggplot(mydata, aes(x = EducationLevel, y = Height)) +
