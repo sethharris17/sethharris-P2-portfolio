@@ -98,6 +98,18 @@ d3$Gender <- as.factor(d3$Gender)
 skimr::skim(d3)
 ```
 
+Now checking the `EducationLevel` variable. Education level should be a categorical/factor variable but is loaded as character. We can fix that with simple base R code to mix things up.
+
+```{r}
+d3$EducationLevel <- as.factor(d3$EducationLevel)  
+skimr::skim(d3)
+```
+Additionally, checking the `WorkHoursPerWeek` variable -- should be a numeric variable but is loaded as character. We can fix that with simple base R code to mix things up.
+
+```{r}
+d3$WorkHoursPerWeek <- as.numeric(d3$WorkHoursPerWeek)  
+skimr::skim(d3)
+```
 
 Now we see that there is another NA, but it's not `NA` from R, instead it was loaded as character and is now considered as a category.
 Well proceed here by removing that individual with that NA entry. Since this keeps an empty category for Gender, I'm also using droplevels() to get rid of it.
@@ -132,12 +144,3 @@ saveRDS(processeddata, file = save_data_location)
 ```
 
 Note the use of the `here` package and `here` command to specify a path relative to the main project directory, that is the folder that contains the `.Rproj` file. Always use this approach instead of hard-coding file paths that only exist on your computer.
-
-
-
-# Notes
-
-Removing anyone observation with "faulty" or missing data is one approach. It's often not the best. based on your question and your analysis approach, you might want to do cleaning differently (e.g. keep observations with some missing information).
-
-
-
