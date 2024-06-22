@@ -331,3 +331,192 @@ The coefficient for the transformed population size may not provide a meaningful
 -   There is no statistically significant relationship between population size and life expectancy. Population size does not appear to be a strong predictor of life expectancy based on the 2000 data.
 
 By fitting these simple models and interpreting the results, we gain insights into the relationships between life expectancy, infant mortality, and population size. This process highlights the importance of using statistical models to understand data patterns and make informed conclusions.
+
+## **This section contributed by Collin Real**
+## Explore the dataset
+**Str() and Summary() functions to take a look at the data**
+
+```{r}
+data(polls_us_election_2016) # import data
+```
+
+```{r}
+help(polls_us_election_2016)
+```
+
+```{r}
+str(polls_us_election_2016) #getting an overview of data structure
+```
+
+```{r}
+summary(polls_us_election_2016) #getting a summary of data
+```
+
+## Pre Process Data
+```{r}
+# Filter by U.S. state greater than October 31, 2016 and remove null values from grade
+df = polls_us_election_2016 |> 
+  filter(state == "U.S." & enddate >= "2016-10-31" &
+           (grade %in% c("A+","A","A-","B+") | is.na(grade)))
+head(df, 10)
+```
+
+## Visualize Distribution of Data
+### Boxplots - Trump Polls
+```{r}
+ggplot(df, aes(x = grade, y = rawpoll_trump)) +
+  geom_boxplot(fill='steelblue', color='black') +
+  labs(title = "Trump Boxplot - Poll % Distribution by Grade",
+       x = "Grade",
+       y = "Poll % Distribution") + 
+  facet_wrap(~grade, scales = 'free')
+```
+
+### Boxplots - Clinton Polls
+```{r}
+ggplot(df, aes(x = grade, y = rawpoll_clinton)) +
+  geom_boxplot(fill='steelblue', color='black') +
+  labs(title = "Clinton Boxplot - Poll % Distribution by Grade",
+       x = "Grade",
+       y = "Poll % Distribution") + 
+  facet_wrap(~grade, scales = 'free')
+
+```
+
+### Histogram - Trump Polls
+```{r}
+df %>%
+  ggplot(aes(x = rawpoll_trump)) +
+  geom_histogram(color='black', fill='steelblue') +
+  labs(title = "Trump Histogram - Poll % Distribution by Grade",
+       x = "Grade",
+       y = "Poll % Distribution") + 
+  facet_wrap(~grade, scales = 'free')
+```
+
+### Histogram - Hillary Polls
+```{r}
+# Create a boxplot of price distribution by electric vehicle type
+df %>%
+  select(grade, rawpoll_clinton) %>%
+  ggplot(aes(x = rawpoll_clinton)) +
+  geom_histogram(color='black', fill='steelblue') +
+  labs(title = "Trump Histogram - Poll % Distribution by Grade",
+       x = "Grade",
+       y = "Poll % Distribution") + 
+  facet_wrap(~grade, scales = 'free')
+```
+
+### Found this snippet from an online tutorial
+```{r}
+polls_us_election_2016 %>%
+  filter(state == "U.S." & enddate>="2016-07-01") %>%
+  select(enddate, pollster, rawpoll_clinton, rawpoll_trump) %>%
+  rename(Clinton = rawpoll_clinton, Trump = rawpoll_trump) %>%
+  gather(candidate, percentage, -enddate, -pollster) %>% 
+  mutate(candidate = factor(candidate, levels = c("Trump","Clinton")))%>%
+  group_by(pollster) %>%
+  filter(n()>=10) %>%
+  ungroup() %>%
+  ggplot(aes(enddate, percentage, color = candidate)) +  
+  geom_point(show.legend = FALSE, alpha=0.4)  + 
+  geom_smooth(method = "loess", span = 0.15) +
+  scale_y_continuous(limits = c(30,50))
+```
+
+### Statistical Models
+### Predicting Electoral College Votes
+#### Top 5 States w/ Most Electoral Votes
+**Removed my initial models in favor of this comprehensive example I found online - more insightful tutorial than my basic regressions**
+```{r}
+results_us_election_2016 %>% top_n(5, electoral_votes)
+```
+
+### Aggregrate Poll Results - Week Before Election
+```{r}
+results <- polls_us_election_2016 %>%
+  filter(state!="U.S." & 
+           !grepl("CD", state) & 
+           enddate >="2016-10-31" & 
+           (grade %in% c("A+","A","A-","B+") | is.na(grade))) %>%
+  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) %>%
+  group_by(state) %>%
+  summarize(avg = mean(spread), sd = sd(spread), n = n()) %>%
+  mutate(state = as.character(state))
+results %>% glimpse()   
+```
+
+### Join the number of electoral votes for each state
+```{r}
+results <- left_join(results, results_us_election_2016, by = "state")
+results %>% glimpse()   
+```
+
+### States with no poll data - high confidence of winner
+```{r}
+results_us_election_2016 %>% filter(!state %in% results$state) %>% 
+  pull(state)
+```
+
+### Estimate standard deviation
+```{r}
+results <- results %>%
+  mutate(sd = ifelse(is.na(sd), median(results$sd, na.rm = TRUE), sd))
+results %>% glimpse()   
+```
+
+### Simulate election day voting with Monte Carlo
+```{r}
+mu <- 0
+tau <- 0.02
+results <- results %>% mutate(sigma = sd/sqrt(n), 
+                   B = sigma^2 / (sigma^2 + tau^2),
+                   posterior_mean = B * mu + (1 - B) * avg,
+                   posterior_se = sqrt(1/ (1/sigma^2 + 1/tau^2)))
+results %>% glimpse()   
+```
+
+### Simulate 10,000 times 
+```{r}
+B <- 10000
+mu <- 0
+tau <- 0.02
+clinton_EV = replicate(B, {
+  results %>% mutate(sigma = sd/sqrt(n), 
+                   B = sigma^2 / (sigma^2 + tau^2),
+                   posterior_mean = B * mu + (1 - B) * avg,
+                   posterior_se = sqrt(1 / (1/sigma^2 + 1/tau^2)),
+                   result = rnorm(length(posterior_mean), 
+                                  posterior_mean, posterior_se),
+                   clinton = ifelse(result > 0, electoral_votes, 0)) %>%
+    summarize(clinton = sum(clinton)) %>%
+    pull(clinton) + 7
+})
+mean(clinton_EV > 269)
+```
+
+### Include general bias
+```{r}
+tau <- 0.02
+bias_sd <- 0.03
+clinton_EV_2 <- replicate(1000, {
+  results %>% mutate(sigma = sqrt(sd^2/n  + bias_sd^2),  
+                   B = sigma^2 / (sigma^2 + tau^2),
+                   posterior_mean = B*mu + (1-B)*avg,
+                   posterior_se = sqrt( 1/ (1/sigma^2 + 1/tau^2)),
+                   result = rnorm(length(posterior_mean), 
+                                  posterior_mean, posterior_se),
+                   clinton = ifelse(result>0, electoral_votes, 0)) %>% 
+    summarize(clinton = sum(clinton) + 7) %>% 
+    pull(clinton)
+})
+mean(clinton_EV_2 > 269)
+```
+
+```{r}
+hist(clinton_EV)
+hist(clinton_EV_2)
+```
+
+## Modeling Results
+Two models were ran to predict the amount of electoral votes Hillary Clinton would receive in the 2016 election. The first model concluded that Clinton had a 99% chance of winning the presidency with more than 269 electoral votes. However, the first model assumes results from different states are independent, ignoring the general bias. Model 2 addresses these flaws, calculating an 82.5% chance of Clinton winning the presidency. The histograms illustrate Model 2's robustness compared to the first model, showing how including bias adds more variability in the final predictions.
