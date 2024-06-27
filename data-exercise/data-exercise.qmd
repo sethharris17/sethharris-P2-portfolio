@@ -2,3 +2,93 @@
 title: "Data Exercise"
 ---
 
+First, I will create a synthetic dataset with multiple variables and some associations between them. I will then explore the data with plots and tables, and fit some simple models to see if they can recover the associations.
+
+### Generate Synthetic Dataset
+
+```{r}
+# Load necessary libraries
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+
+# Set seed for reproducibility
+set.seed(123)
+
+# Generate synthetic dataset
+n <- 1000
+x1 <- rnorm(n, mean = 5, sd = 2)
+x2 <- rnorm(n, mean = 3, sd = 1)
+x3 <- rbinom(n, 1, 0.5)
+y <- 3 + 2 * x1 - 1.5 * x2 + 0.8 * x3 + rnorm(n)
+
+# Create data frame
+df <- data.frame(y, x1, x2, x3)
+
+# Explore the dataset
+summary(df)
+head(df)
+```
+
+### Explore the Data
+
+#### Plot the relationships between variables
+
+```{r}
+# Plot y against x1
+ggplot(df, aes(x = x1, y = y)) +
+  geom_point() +
+  geom_smooth(method = "lm", col = "blue") +
+  labs(title = "Scatter plot of y vs x1")
+
+# Plot y against x2
+ggplot(df, aes(x = x2, y = y)) +
+  geom_point() +
+  geom_smooth(method = "lm", col = "blue") +
+  labs(title = "Scatter plot of y vs x2")
+
+# Boxplot of y by x3
+ggplot(df, aes(x = as.factor(x3), y = y)) +
+  geom_boxplot() +
+  labs(title = "Boxplot of y by x3", x = "x3")
+```
+
+### Fit Simple Models
+
+#### Linear Model
+
+```{r}
+# Fit a linear model
+model <- lm(y ~ x1 + x2 + x3, data = df)
+summary(model)
+```
+
+#### Explore Model Coefficients
+
+```{r}
+# Print the coefficients of the linear model
+cat("Coefficients of the linear model:\n")
+print(coef(model))
+```
+
+### Explore Different Models
+
+#### Polynomial Regression
+
+```{r}
+# Fit a polynomial regression model
+model_poly <- lm(y ~ poly(x1, 2) + poly(x2, 2) + x3, data = df)
+summary(model_poly)
+```
+
+#### Interaction Model
+
+```{r}
+# Fit a model with interaction terms
+model_interact <- lm(y ~ x1 * x2 + x1 * x3 + x2 * x3, data = df)
+summary(model_interact)
+```
+
+### Conclusion
+
+This R code generates a synthetic dataset with multiple variables and known associations, explores the data with plots and tables, and fits several simple models to recover the associations. The linear model should reveal the coefficients that were built into the data generation process, while the polynomial and interaction models allow us to explore more complex relationships.
