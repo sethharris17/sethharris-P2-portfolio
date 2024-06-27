@@ -1,5 +1,4 @@
 ---
-title: "Tidy Tuesday Exercise"
+title: "Data Exercise"
 ---
 
-Placeholder file for the future Tidy Tuesday exercise.
