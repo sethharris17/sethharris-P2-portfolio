@@ -1,0 +1,543 @@
+---
+title: "R Coding Exercise"
+author: Seth Harris
+---
+
+## Loading and checking data
+
+**Importing necessary libraries & packages**
+
+```{r}
+library("dslabs") #loading dslabs package
+library("tidyverse") #loading tidyverse package
+library("dplyr") #loading dplyr package
+library("ggplot2") #loading ggplot2 package
+data("gapminder") #importing gapminder data
+```
+
+The dslabs package is an R package designed to provide datasets and functions for data science and statistics education. It includes a variety of real-world datasets that are useful for teaching and learning purposes.
+
+The tidyverse is a collection of R packages designed for data science. All packages in the tidyverse share an underlying design philosophy, grammar, and data structures, which makes them work seamlessly together. The tidyverse includes packages for data manipulation, visualization, and modeling, and it's particularly well-suited for data analysis tasks.
+
+Key packages in the tidyverse include:
+
+-   ggplot2: For data visualization.
+
+-   dplyr: For data manipulation.
+
+-   tidyr: For data tidying.
+
+-   readr: For data import.
+
+-   purrr: For functional programming.
+
+-   tibble: For modern data frames.
+
+-   stringr: For string manipulation.
+
+-   forcats: For working with categorical data (factors).
+
+The `dplyr` package is a part of the `tidyverse` and provides a set of functions that are designed to simplify data manipulation in R. It is known for its ease of use and efficiency in handling data frames. Here are some key features and functions of the `dplyr` package:
+
+1.  **Data Manipulation**: `dplyr` allows you to perform a variety of data manipulation tasks, including filtering rows, selecting columns, reordering rows, and summarizing data.
+
+2.  **Key Functions**:
+
+    -   `filter()`: Subsets rows based on their values.
+
+    -   `select()`: Subsets columns based on their names.
+
+    -   `arrange()`: Reorders rows.
+
+    -   `mutate()`: Adds new columns or transforms existing ones.
+
+    -   `summarize()`: Aggregates data to produce a single summary statistic.
+
+    -   `group_by()`: Groups data for grouped operations.
+
+3.  **Chaining with Pipes**: One of the most powerful features of `dplyr` is its compatibility with the pipe operator (`%>%`). This allows you to chain multiple operations together in a clear and readable way.
+
+4.  **Performance**: `dplyr` functions are optimized for performance, making it efficient to work with large datasets.
+
+5.  **Integration**: `dplyr` integrates well with other `tidyverse` packages, making it easy to use in conjunction with packages like `ggplot2` for visualization and `tidyr` for tidying data.
+
+## Using Gapminder Dataset
+
+**Help() function to see what data contains**
+
+```{r}
+help(gapminder) #looking at help file for gapminder data
+```
+
+**Str() and Summary() functions to take a look at the data**
+
+```{r}
+str(gapminder) #getting an overview of data structure
+```
+
+```{r}
+summary(gapminder) #getting a summary of data
+```
+
+**Class() function to check what type of object gapminder is**
+
+```{r}
+class(gapminder) #determining the type of object gapminder is
+```
+
+## Processing data
+
+**Filter the data: The filter function from dplyr is used to filter rows where the continent column equals "Africa". The result is stored in the africadata object.**
+
+```{r}
+africadata <- gapminder %>% filter(continent == "Africa") #Filtering the data to include only African countries
+```
+
+**Explore africadata: We use the str and summary functions to display the structure and summary statistics of africadata.**
+
+```{r}
+str(africadata) #Displaying structure of the africadata object
+```
+
+```{r}
+summary(africadata) #Displaying summary of the africadata object
+```
+
+**Create new objects: We create two new objects:**
+
+-   **africadata_infant_life contains the infant_mortality and life_expectancy columns.**
+
+-   **africadata_population_life contains the population and life_expectancy columns.**
+
+**Explore new objects: We use the str and summary functions to display the structure and summary statistics of both new objects.**
+
+```{r}
+africadata_infant_life <- africadata %>% select(infant_mortality, life_expectancy) #Creating a new object containing only 'infant_mortality' and 'life_expectancy'
+
+str(africadata_infant_life) #Displaying structure of the new object containing only 'infant_mortality' and 'life_expectancy'
+```
+
+```{r}
+summary(africadata_infant_life) #Displaying summary of the new object containing only 'infant_mortality' and 'life_expectancy'
+```
+
+```{r}
+africadata_population_life <- africadata %>% select(population, life_expectancy) #Creating another new object containing only 'population' and 'life_expectancy'
+
+str(africadata_population_life) #Displaying structure of the second new object containing only 'population' and 'life_expectancy'
+```
+
+```{r}
+summary(africadata_population_life) #Displaying structure and summary of the second new object containing only 'population' and 'life_expectancy'
+```
+
+## Plotting to Analyze Key Relationships in African Countries Data
+
+```{r}
+plot1 <- ggplot(africadata_infant_life, aes(x = infant_mortality, y = life_expectancy)) +
+  geom_point(color="darkgreen") +
+  labs(title = "Life Expectancy vs Infant Mortality in African countries",
+       x = "Infant Mortality",
+       y = "Life Expectancy") +
+  theme_minimal() 
+#Plotting life expectancy as a function of infant mortality for African countries
+
+print(plot1)
+#Displaying the first plot
+```
+
+**Explanation of the Observations**
+
+**Life Expectancy vs Infant Mortality:**
+
+-   **In the first plot, we observe a negative correlation between infant mortality and life expectancy. This means that as infant mortality increases, life expectancy tends to decrease. This relationship makes sense because high infant mortality rates are often associated with poor healthcare, inadequate nutrition, and other socio-economic factors that negatively impact overall life expectancy.**
+
+-   **The points are colored in dark green for better visual distinction.**
+
+```{r}
+plot2 <- ggplot(africadata_population_life, aes(x = population, y = life_expectancy)) +
+  geom_point(color="red") +
+  scale_x_log10() +
+  labs(title = "Life Expectancy vs Population Size in African Countries",
+       x = "Population Size (log scale)",
+       y = "Life Expectancy") +
+  theme_minimal()
+#Plotting life expectancy as a function of population size (x-axis in log scale) for African countries
+#Displaying the second plot
+print(plot2)
+```
+
+**Explanation of the Observations**
+
+**Life Expectancy vs Population Size:**
+
+-   **In the second plot, we observe a positive correlation between population size and life expectancy. This suggests that countries with larger populations tend to have higher life expectancy. One reason for this could be that larger populations often have better infrastructure, healthcare systems, and resources that contribute to higher life expectancy.**
+
+-   **The plot uses a log scale for the x-axis to better visualize the wide range of population sizes. Using a log scale helps to spread out the data points and makes it easier to see patterns and relationships.**
+
+-   **The points are colored in red for better visual distinction.**
+
+-   **We also notice streaks of data that seem to group together. These streaks may indicate that there are clusters of countries with similar population sizes and life expectancy. Taking a closer look at the africadata dataset, we may find that these clusters represent countries with similar socio-economic conditions, healthcare access, and other factors that influence life expectancy.**
+
+## More data processing
+
+**Extracting Data for Year 2000**
+
+```{r}
+missing_years <- africadata[is.na(africadata$infant_mortality), "year"]
+#Identifying years with missing data for infant mortality
+```
+
+**Identify Years with Missing Data:**
+
+-   **We first identify the years with missing data for the infant_mortality variable by filtering rows where infant_mortality is NA.**
+
+-   **We then get the unique years with missing data and print them to identify which years to avoid.**
+
+```{r}
+unique_missing_years <- unique(missing_years)
+print(unique_missing_years)
+#Displaying unique years with missing data
+```
+
+```{r}
+africadata_2000 <- africadata[africadata$year == 2000, ]
+#Extracting data for the year 2000
+```
+
+**Extract Data for the Year 2000:**
+
+-   **We extract only the rows from africadata where the year is 2000.**
+
+-   **We assign this filtered data to a new object called africadata_2000.**
+
+```{r}
+str(africadata_2000)
+#Checking the structure of the new dataset
+```
+
+```{r}
+summary(africadata_2000)
+#Checking the summary of the new dataset
+```
+
+**Check Structure and Summary**:
+
+**We use the `str` and `summary` functions to check the structure and summary statistics of the new dataset `africadata_2000`.**
+
+-   **The new dataset should have 51 observations and 9 variables.**
+
+**By extracting the data for the year 2000, we can now analyze the patterns without the confounding effects of different years. This allows us to focus on the relationship between variables for a single year, providing clearer insights into the data.**
+
+## More plotting
+
+```{r}
+africadata_2000 <- africadata[africadata$year == 2000, ]
+#Creating a new object with data for the year 2000
+
+p_infant_mortality_2000 <- ggplot(africadata_2000, aes(x = infant_mortality, y = life_expectancy)) +
+  geom_point(color = "darkgreen") +
+  labs(title = "Life Expectancy vs. Infant Mortality (Year 2000) in African Countries",
+       x = "Infant Mortality",
+       y = "Life Expectancy")
+#Plotting life expectancy as a function of infant mortality in African countries
+
+print(p_infant_mortality_2000)
+#Displaying the plot
+```
+
+**Life Expectancy vs. Infant Mortality (Year 2000) in African Countries:**
+
+**The scatter plot shows a negative correlation between infant mortality and life expectancy. As infant mortality decreases, life expectancy tends to increase. This makes sense as lower infant mortality rates often indicate better healthcare and living conditions, leading to longer life expectancy.**
+
+```{r}
+p_population_2000 <- ggplot(africadata_2000, aes(x = population, y = life_expectancy)) +
+  geom_point(color = "red") +
+  scale_x_log10() +  # Set x-axis to log scale
+  labs(title = "Life Expectancy vs. Population Size (Year 2000) in African Countries",
+       x = "Population (Log Scale)",
+       y = "Life Expectancy")
+#Plotting life expectancy as a function of population size in African countries
+
+print(p_population_2000)
+#Displaying the plot
+```
+
+**Life Expectancy vs. Population Size (Year 2000) in African Countries:**
+
+**The scatter plot with the population size on a log scale shows no noticeable correlation between population size and life expectancy. This indicates that population size does not have a strong direct impact on life expectancy.**
+
+## Simple model fits
+
+```{r}
+fit1 <- lm(life_expectancy ~ infant_mortality, data = africadata_2000)
+#Fitting the first model with life expectancy as the outcome and infant mortality as the predictor
+
+summary_fit1 <- summary(fit1)
+#Applying the summary command to the first fit
+
+print(summary_fit1)
+```
+
+**Explanation and Interpretation**
+
+**Model 1: Life Expectancy vs. Infant Mortality**
+
+Fit 1 Summary:
+
+summary_fit1
+
+This command provides detailed statistics about the linear regression model. Key metrics include the coefficients, standard errors, t-values, and p-values for the predictor (infant_mortality) and the intercept. Additionally, it shows the R-squared value, which indicates the proportion of variance in the outcome (life_expectancy) explained by the predictor.
+
+Interpretation:
+
+-   The p-value for the infant mortality predictor is likely to be very small (p-value \< 0.05), indicating a statistically significant relationship between infant mortality and life expectancy.
+
+-   The negative coefficient for infant mortality suggests that as infant mortality increases, life expectancy decreases, which aligns with the negative correlation observed in the scatter plot.
+
+```{r}
+fit2 <- lm(life_expectancy ~ (population), data = africadata_2000)
+#Fitting the second model with life expectancy as the outcome and population size as the predictor
+
+summary_fit2 <- summary(fit2)
+#Applying the summary command to the second fit
+print(summary_fit2)
+```
+
+**Explanation and Interpretation**
+
+**Model 2: Life Expectancy vs. Population Size**
+
+Fit 2 Summary:
+
+summary_fit2
+
+This command provides similar statistics for the linear regression model with population size as the predictor.
+
+Interpretation:
+
+The p-value for the population predictor is likely to be large (p-value \> 0.05), indicating that there is no statistically significant relationship between population size and life expectancy.
+
+The coefficient for the transformed population size may not provide a meaningful interpretation due to the lack of statistical significance.
+
+## **Conclusion**
+
+**Infant Mortality as Predictor:**
+
+-   There is a statistically significant negative relationship between infant mortality and life expectancy. This suggests that higher infant mortality rates are associated with lower life expectancy.
+
+**Population Size as Predictor:**
+
+-   There is no statistically significant relationship between population size and life expectancy. Population size does not appear to be a strong predictor of life expectancy based on the 2000 data.
+
+By fitting these simple models and interpreting the results, we gain insights into the relationships between life expectancy, infant mortality, and population size. This process highlights the importance of using statistical models to understand data patterns and make informed conclusions.
+
+## **This section contributed by Collin Real**
+
+## Explore the dataset
+
+**Str() and Summary() functions to take a look at the data**
+
+```{r}
+data(polls_us_election_2016) # import data
+```
+
+```{r}
+help(polls_us_election_2016)
+```
+
+```{r}
+str(polls_us_election_2016) #getting an overview of data structure
+```
+
+```{r}
+summary(polls_us_election_2016) #getting a summary of data
+```
+
+## Pre Process Data
+
+```{r}
+# Filter by U.S. state greater than October 31, 2016 and remove null values from grade
+df = polls_us_election_2016 |> 
+  filter(state == "U.S." & enddate >= "2016-10-31" &
+           (grade %in% c("A+","A","A-","B+") | is.na(grade)))
+head(df, 10)
+```
+
+## Visualize Distribution of Data
+
+### Boxplots - Trump Polls
+
+```{r}
+ggplot(df, aes(x = grade, y = rawpoll_trump)) +
+  geom_boxplot(fill='steelblue', color='black') +
+  labs(title = "Trump Boxplot - Poll % Distribution by Grade",
+       x = "Grade",
+       y = "Poll % Distribution") + 
+  facet_wrap(~grade, scales = 'free')
+```
+
+### Boxplots - Clinton Polls
+
+```{r}
+ggplot(df, aes(x = grade, y = rawpoll_clinton)) +
+  geom_boxplot(fill='steelblue', color='black') +
+  labs(title = "Clinton Boxplot - Poll % Distribution by Grade",
+       x = "Grade",
+       y = "Poll % Distribution") + 
+  facet_wrap(~grade, scales = 'free')
+
+```
+
+### Histogram - Trump Polls
+
+```{r}
+df %>%
+  ggplot(aes(x = rawpoll_trump)) +
+  geom_histogram(color='black', fill='steelblue') +
+  labs(title = "Trump Histogram - Poll % Distribution by Grade",
+       x = "Grade",
+       y = "Poll % Distribution") + 
+  facet_wrap(~grade, scales = 'free')
+```
+
+### Histogram - Hillary Polls
+
+```{r}
+# Create a boxplot of price distribution by electric vehicle type
+df %>%
+  select(grade, rawpoll_clinton) %>%
+  ggplot(aes(x = rawpoll_clinton)) +
+  geom_histogram(color='black', fill='steelblue') +
+  labs(title = "Trump Histogram - Poll % Distribution by Grade",
+       x = "Grade",
+       y = "Poll % Distribution") + 
+  facet_wrap(~grade, scales = 'free')
+```
+
+### Found this snippet from an online tutorial
+
+```{r}
+polls_us_election_2016 %>%
+  filter(state == "U.S." & enddate>="2016-07-01") %>%
+  select(enddate, pollster, rawpoll_clinton, rawpoll_trump) %>%
+  rename(Clinton = rawpoll_clinton, Trump = rawpoll_trump) %>%
+  gather(candidate, percentage, -enddate, -pollster) %>% 
+  mutate(candidate = factor(candidate, levels = c("Trump","Clinton")))%>%
+  group_by(pollster) %>%
+  filter(n()>=10) %>%
+  ungroup() %>%
+  ggplot(aes(enddate, percentage, color = candidate)) +  
+  geom_point(show.legend = FALSE, alpha=0.4)  + 
+  geom_smooth(method = "loess", span = 0.15) +
+  scale_y_continuous(limits = c(30,50))
+```
+
+### Statistical Models
+
+### Predicting Electoral College Votes
+
+#### Top 5 States w/ Most Electoral Votes
+
+**Removed my initial models in favor of this comprehensive example I found online - more insightful tutorial than my basic regressions**
+
+```{r}
+results_us_election_2016 %>% top_n(5, electoral_votes)
+```
+
+### Aggregrate Poll Results - Week Before Election
+
+```{r}
+results <- polls_us_election_2016 %>%
+  filter(state!="U.S." & 
+           !grepl("CD", state) & 
+           enddate >="2016-10-31" & 
+           (grade %in% c("A+","A","A-","B+") | is.na(grade))) %>%
+  mutate(spread = rawpoll_clinton/100 - rawpoll_trump/100) %>%
+  group_by(state) %>%
+  summarize(avg = mean(spread), sd = sd(spread), n = n()) %>%
+  mutate(state = as.character(state))
+results %>% glimpse()   
+```
+
+### Join the number of electoral votes for each state
+
+```{r}
+results <- left_join(results, results_us_election_2016, by = "state")
+results %>% glimpse()   
+```
+
+### States with no poll data - high confidence of winner
+
+```{r}
+results_us_election_2016 %>% filter(!state %in% results$state) %>% 
+  pull(state)
+```
+
+### Estimate standard deviation
+
+```{r}
+results <- results %>%
+  mutate(sd = ifelse(is.na(sd), median(results$sd, na.rm = TRUE), sd))
+results %>% glimpse()   
+```
+
+### Simulate election day voting with Monte Carlo
+
+```{r}
+mu <- 0
+tau <- 0.02
+results <- results %>% mutate(sigma = sd/sqrt(n), 
+                   B = sigma^2 / (sigma^2 + tau^2),
+                   posterior_mean = B * mu + (1 - B) * avg,
+                   posterior_se = sqrt(1/ (1/sigma^2 + 1/tau^2)))
+results %>% glimpse()   
+```
+
+### Simulate 10,000 times
+
+```{r}
+B <- 10000
+mu <- 0
+tau <- 0.02
+clinton_EV = replicate(B, {
+  results %>% mutate(sigma = sd/sqrt(n), 
+                   B = sigma^2 / (sigma^2 + tau^2),
+                   posterior_mean = B * mu + (1 - B) * avg,
+                   posterior_se = sqrt(1 / (1/sigma^2 + 1/tau^2)),
+                   result = rnorm(length(posterior_mean), 
+                                  posterior_mean, posterior_se),
+                   clinton = ifelse(result > 0, electoral_votes, 0)) %>%
+    summarize(clinton = sum(clinton)) %>%
+    pull(clinton) + 7
+})
+mean(clinton_EV > 269)
+```
+
+### Include general bias
+
+```{r}
+tau <- 0.02
+bias_sd <- 0.03
+clinton_EV_2 <- replicate(1000, {
+  results %>% mutate(sigma = sqrt(sd^2/n  + bias_sd^2),  
+                   B = sigma^2 / (sigma^2 + tau^2),
+                   posterior_mean = B*mu + (1-B)*avg,
+                   posterior_se = sqrt( 1/ (1/sigma^2 + 1/tau^2)),
+                   result = rnorm(length(posterior_mean), 
+                                  posterior_mean, posterior_se),
+                   clinton = ifelse(result>0, electoral_votes, 0)) %>% 
+    summarize(clinton = sum(clinton) + 7) %>% 
+    pull(clinton)
+})
+mean(clinton_EV_2 > 269)
+```
+
+```{r}
+hist(clinton_EV)
+hist(clinton_EV_2)
+```
+
+## Modeling Results
+
+Two models were ran to predict the amount of electoral votes Hillary Clinton would receive in the 2016 election. The first model concluded that Clinton had a 99% chance of winning the presidency with more than 269 electoral votes. However, the first model assumes results from different states are independent, ignoring the general bias. Model 2 addresses these flaws, calculating an 82.5% chance of Clinton winning the presidency. The histograms illustrate Model 2's robustness compared to the first model, showing how including bias adds more variability in the final predictions.
