@@ -1,5 +1,6 @@
 ---
 title: "Data Exercise"
+author: "Seth Harris"
 ---
 
 First, I will create a synthetic dataset with multiple variables and some associations between them. I will then explore the data with plots and tables, and fit some simple models to see if they can recover the associations.
@@ -53,6 +54,16 @@ ggplot(df, aes(x = as.factor(x3), y = y)) +
   labs(title = "Boxplot of y by x3", x = "x3")
 ```
 
+1.  **Scatter plot of y vs x1**: This plot shows a positive linear relationship between `x1` and `y`. As `x1` increases, `y` also tends to increase. The fitted line, shown in blue, confirms this positive correlation.
+
+2.  **Scatter plot of y vs x2**: This plot shows a slight negative linear relationship between `x2` and `y`. As `x2` increases, `y` tends to decrease slightly. The fitted line, shown in blue, indicates this negative correlation.
+
+3.  **Boxplot of y by x3**: This boxplot shows the distribution of `y` for two categories of `x3` (0 and 1). The median `y` value appears to be slightly higher for `x3 = 1` compared to `x3 = 0`, indicating a potential difference in `y` based on the category of `x3`.
+
+Overall, the plots confirm the expected relationships in the synthetic data, with `x1` having a positive association with `y`, `x2` having a negative association with `y`, and `x3` showing some differences in `y` based on its category.
+
+Now I will fit three linear models to explore the relationships in the synthetic dataset.
+
 ### Fit Simple Models
 
 #### Linear Model
@@ -62,6 +73,22 @@ ggplot(df, aes(x = as.factor(x3), y = y)) +
 model <- lm(y ~ x1 + x2 + x3, data = df)
 summary(model)
 ```
+
+**Summary:**
+
+-   Intercept: 3.00272
+
+-   x1 coefficient: 1.98449
+
+-   x2 coefficient: -1.45520
+
+-   x3 coefficient: 0.67653
+
+-   Multiple R-squared: 0.9436
+
+### Interpretation
+
+-   The **first model** (linear) shows strong relationships with significant coefficients for all variables.
 
 #### Explore Model Coefficients
 
@@ -81,6 +108,26 @@ model_poly <- lm(y ~ poly(x1, 2) + poly(x2, 2) + x3, data = df)
 summary(model_poly)
 ```
 
+**Summary:**
+
+-   Intercept: 8.56089
+
+-   x1 (1st term) coefficient: 124.40827
+
+-   x1 (2nd term) coefficient: -0.57825 (not significant)
+
+-   x2 (1st term) coefficient: -46.44628
+
+-   x2 (2nd term) coefficient: -0.22716 (not significant)
+
+-   x3 coefficient: 0.67839
+
+-   Multiple R-squared: 0.9436
+
+### Interpretation
+
+-   The **second model** (polynomial) adds quadratic terms for `x1` and `x2`, but the additional complexity does not significantly improve the model, as the quadratic terms are not significant.
+
 #### Interaction Model
 
 ```{r}
@@ -89,6 +136,36 @@ model_interact <- lm(y ~ x1 * x2 + x1 * x3 + x2 * x3, data = df)
 summary(model_interact)
 ```
 
+**Summary:**
+
+-   Intercept: 2.67485
+
+-   x1 coefficient: 2.04367
+
+-   x2 coefficient: -1.33398
+
+-   x3 coefficient: 0.67439
+
+-   x1
+
+    interaction: -0.02194 (not significant)
+
+-   x1
+
+    interaction: 0.01434 (not significant)
+
+-   x2
+
+    interaction: -0.02219 (not significant)
+
+-   Multiple R-squared: 0.9437
+
+### Interpretation
+
+-   The **third model** (interaction) introduces interaction terms, but they are not significant, indicating no substantial interaction effects between the variables.
+
 ### Conclusion
 
 This R code generates a synthetic dataset with multiple variables and known associations, explores the data with plots and tables, and fits several simple models to recover the associations. The linear model should reveal the coefficients that were built into the data generation process, while the polynomial and interaction models allow us to explore more complex relationships.
+
+Overall, the linear model successfully captures the main associations between the variables and `y`, while additional complexity from polynomial and interaction terms does not significantly enhance the model's explanatory power.
