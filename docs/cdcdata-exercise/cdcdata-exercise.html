@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Seth Harris">
+<meta name="dcterms.date" content="2024-07-02">
+
+<title>Seth Harris Data Analysis Portfolio - CDC Data Exploration on Weekly United States Hospitalization Metrics by Jurisdiction</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Seth Harris Data Analysis Portfolio</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../aboutme.html" rel="" target="">
+ <span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Projects</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
+        <li>
+    <a class="dropdown-item" href="../starter-analysis-exercise/products/report/starter-analysis-report.html" rel="" target="">
+ <span class="dropdown-text">Starter Analysis Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../coding-exercise/coding-exercise.html" rel="" target="">
+ <span class="dropdown-text">R Coding Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../presentation-exercise/presentation-exercise.html" rel="" target="">
+ <span class="dropdown-text">Presentation Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../tidytuesday-exercise/tidytuesday-exercise.html" rel="" target="">
+ <span class="dropdown-text">Tidy Tuesday Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data-exercise/data-exercise.html" rel="" target="">
+ <span class="dropdown-text">Data Exercise</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../cdcdata-exercise/cdcdata-exercise.html" rel="" target="">
+ <span class="dropdown-text">Data Analysis Exercise</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/sethharris17/sethharris-P2-portfolio.git" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">CDC Data Exploration on Weekly United States Hospitalization Metrics by Jurisdiction</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Seth Harris </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 2, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="brief-description-of-the-data" class="level1">
+<h1>Brief Description of the Data</h1>
+<p><strong>Title:</strong> Weekly United States Hospitalization Metrics by Jurisdiction, During Mandatory Reporting Period from August 1, 2020 to April 30, 2024, and for Data Reported Voluntarily Beginning May 1, 2024, National Healthcare Safety Network (NHSN)</p>
+<p><strong>Source:</strong> (https://data.cdc.gov/Public-Health-Surveillance/Weekly-United-States-Hospitalization-Metrics-by-Ju/aemt-mg7g/about_data)</p>
+<p><strong>Description:</strong> This dataset provides information on COVID-19 and influenza-related hospitalizations, hospital occupancy, and hospital capacity across different jurisdictions in the United States from August 1, 2020, to April 30, 2024, and data reported voluntarily from May 1, 2024. It includes both continuous and categorical variables. I will further explore the dataset from the CDC data website. Specifically looking at information on hospitalization metrics, including the number of new admissions, total number of beds occupied, and more.</p>
+</section>
+<section id="loading-and-processing-the-data" class="level1">
+<h1>Loading and Processing the Data</h1>
+<p><strong>The first step is to load the data and perform some initial cleaning and processing.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary libraries </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lubridate'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the dataset</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>cdcdata <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://data.cdc.gov/api/views/aemt-mg7g/rows.csv?accessType=DOWNLOAD"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 11571 Columns: 64
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (1): Geographic aggregation
+dbl  (62): Hospital Reporting Days, Percent Hospital Reporting Days, Number ...
+date  (1): Week Ending Date
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the first few rows of the data and column names</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cdcdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 64
+  `Week Ending Date` `Geographic aggregation` `Hospital Reporting Days`
+  &lt;date&gt;             &lt;chr&gt;                                        &lt;dbl&gt;
+1 2020-08-08         AL                                             629
+2 2020-08-15         AL                                             637
+3 2020-08-22         AL                                             632
+4 2020-08-29         AL                                             636
+5 2020-09-05         AL                                             640
+6 2020-09-12         AL                                             637
+# ℹ 61 more variables: `Percent Hospital Reporting Days` &lt;dbl&gt;,
+#   `Number Hospitals Reporting Adult COVID-19 Admissions` &lt;dbl&gt;,
+#   `Number Hospitals Reporting Pediatric COVID-19 Admissions` &lt;dbl&gt;,
+#   `Number Hospitals Reporting Influenza Admissions` &lt;dbl&gt;,
+#   `Number Hospitals Reporting Prevalent Influenza Hospitalizations` &lt;dbl&gt;,
+#   `Number Hospitals Reporting Hospitalized Influenza ICU Patients` &lt;dbl&gt;,
+#   `Number Hospitals Reporting Inpatient Beds` &lt;dbl&gt;, …</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(cdcdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Week Ending Date"                                                     
+ [2] "Geographic aggregation"                                               
+ [3] "Hospital Reporting Days"                                              
+ [4] "Percent Hospital Reporting Days"                                      
+ [5] "Number Hospitals Reporting Adult COVID-19 Admissions"                 
+ [6] "Number Hospitals Reporting Pediatric COVID-19 Admissions"             
+ [7] "Number Hospitals Reporting Influenza Admissions"                      
+ [8] "Number Hospitals Reporting Prevalent Influenza Hospitalizations"      
+ [9] "Number Hospitals Reporting Hospitalized Influenza ICU Patients"       
+[10] "Number Hospitals Reporting Inpatient Beds"                            
+[11] "Number Hospitals Reporting ICU Beds"                                  
+[12] "Number Hospitals Reporting Inpatient Beds Occupied"                   
+[13] "Number Hospitals Reporting ICU Beds Occupied"                         
+[14] "Number Hospitals Reporting Percent Inpatient Bed Occupancy"           
+[15] "Number Hospitals Reporting Percent ICU Bed Occupancy"                 
+[16] "Number Hospitals Reporting Percent COVID-19 Inpatient Bed Occupancy"  
+[17] "Number Hospitals Reporting Percent Influenza Inpatient Bed Occupancy" 
+[18] "Number Hospitals Reporting Percent COVID-19 ICU Bed Occupancy"        
+[19] "Number Hospitals Reporting Percent Influenza ICU Bed Occupancy"       
+[20] "Number Hospitals Reporting Total COVID-19 Admissions"                 
+[21] "Number Hospitals Reporting Prevalent COVID-19 Hospitalizations"       
+[22] "Number Hospitals Reporting Hospitalized COVID-19 ICU Patients"        
+[23] "Weekly Average Adult COVID-19 Admissions"                             
+[24] "Weekly Total Adult COVID-19 Admissions"                               
+[25] "Weekly Average Pediatric COVID-19 Admissions"                         
+[26] "Weekly Total Pediatric COVID-19 Admissions"                           
+[27] "Weekly Average COVID-19 Admissions"                                   
+[28] "Weekly Total COVID-19 Admissions"                                     
+[29] "Weekly Average Influenza Admissions"                                  
+[30] "Weekly Total Influenza Admissions"                                    
+[31] "Weekly Average Prevalent COVID-19 Hospitalizations"                   
+[32] "Weekly Average Prevalent Influenza Hospitalizations"                  
+[33] "Weekly Average Hospitalized COVID-19 ICU Patients"                    
+[34] "Weekly Average Hospitalized Influenza ICU Patients"                   
+[35] "Weekly Average Inpatient Beds"                                        
+[36] "Weekly Average ICU Beds"                                              
+[37] "Weekly Average Inpatient Beds Occupied"                               
+[38] "Weekly Average ICU Beds Occupied"                                     
+[39] "Weekly Average Percent Inpatient Bed Occupancy"                       
+[40] "Weekly Average Percent ICU Bed Occupancy"                             
+[41] "Weekly Average Percent COVID-19 Inpatient Bed Occupancy"              
+[42] "Weekly Average Percent Influenza Inpatient Bed Occupancy"             
+[43] "Weekly Average Percent COVID-19 ICU Bed Occupancy"                    
+[44] "Weekly Average Percent Influenza ICU Bed Occupancy"                   
+[45] "Percent Adult COVID-19 Admissions"                                    
+[46] "Percent Pediatric COVID-19 Admissions"                                
+[47] "Percent Hospitals Reporting Adult COVID-19 Admissions"                
+[48] "Percent Hospitals Reporting Pediatric COVID-19 Admissions"            
+[49] "Percent Hospitals Reporting Influenza Admissions"                     
+[50] "Percent Hospitals Reporting Prevalent Influenza Hospitalizations"     
+[51] "Percent Hospitals Reporting Hospitalized Influenza ICU Patients"      
+[52] "Percent Hospitals Reporting Inpatient Beds"                           
+[53] "Percent Hospitals Reporting ICU Beds"                                 
+[54] "Percent Hospitals Reporting Inpatient Beds Occupied"                  
+[55] "Percent Hospitals Reporting ICU Beds Occupied"                        
+[56] "Percent Hospitals Reporting Percent Inpatient Bed Occupancy"          
+[57] "Percent Hospitals Reporting Percent ICU Bed Occupancy"                
+[58] "Percent Hospitals Reporting Percent COVID-19 Inpatient Bed Occupancy" 
+[59] "Percent Hospitals Reporting Percent Influenza Inpatient Bed Occupancy"
+[60] "Percent Hospitals Reporting Percent COVID-19 ICU Bed Occupancy"       
+[61] "Percent Hospitals Reporting Percent Influenza ICU Bed Occupancy"      
+[62] "Percent Hospitals Reporting Total COVID-19 Admissions"                
+[63] "Percent Hospitals Reporting Prevalent COVID-19 Hospitalizations"      
+[64] "Percent Hospitals Reporting Hospitalized COVID-19 ICU Patients"       </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cdcdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Week Ending Date     Geographic aggregation Hospital Reporting Days
+ Min.   :2020-08-08   Length:11571           Min.   :    0          
+ 1st Qu.:2021-07-24   Class :character       1st Qu.:  229          
+ Median :2022-07-16   Mode  :character       Median :  497          
+ Mean   :2022-07-16                          Mean   : 1155          
+ 3rd Qu.:2023-07-08                          3rd Qu.:  832          
+ Max.   :2024-06-22                          Max.   :34044          
+                                                                    
+ Percent Hospital Reporting Days
+ Min.   :0.0000                 
+ 1st Qu.:0.9600                 
+ Median :0.9800                 
+ Mean   :0.9403                 
+ 3rd Qu.:1.0000                 
+ Max.   :1.0000                 
+                                
+ Number Hospitals Reporting Adult COVID-19 Admissions
+ Min.   :   0.0                                      
+ 1st Qu.:  33.0                                      
+ Median :  72.0                                      
+ Mean   : 166.4                                      
+ 3rd Qu.: 121.0                                      
+ Max.   :4887.0                                      
+                                                     
+ Number Hospitals Reporting Pediatric COVID-19 Admissions
+ Min.   :   0.0                                          
+ 1st Qu.:  33.0                                          
+ Median :  72.0                                          
+ Mean   : 165.5                                          
+ 3rd Qu.: 120.0                                          
+ Max.   :4887.0                                          
+                                                         
+ Number Hospitals Reporting Influenza Admissions
+ Min.   :   0.0                                 
+ 1st Qu.:  26.0                                 
+ Median :  62.0                                 
+ Mean   : 152.8                                 
+ 3rd Qu.: 114.0                                 
+ Max.   :4887.0                                 
+                                                
+ Number Hospitals Reporting Prevalent Influenza Hospitalizations
+ Min.   :   0.0                                                 
+ 1st Qu.:  26.0                                                 
+ Median :  62.0                                                 
+ Mean   : 152.8                                                 
+ 3rd Qu.: 114.0                                                 
+ Max.   :4887.0                                                 
+                                                                
+ Number Hospitals Reporting Hospitalized Influenza ICU Patients
+ Min.   :   0.0                                                
+ 1st Qu.:  26.0                                                
+ Median :  62.0                                                
+ Mean   : 152.8                                                
+ 3rd Qu.: 114.0                                                
+ Max.   :4887.0                                                
+                                                               
+ Number Hospitals Reporting Inpatient Beds Number Hospitals Reporting ICU Beds
+ Min.   :   0.0                            Min.   :   0.0                     
+ 1st Qu.:  33.0                            1st Qu.:  33.0                     
+ Median :  72.0                            Median :  72.0                     
+ Mean   : 165.8                            Mean   : 166.2                     
+ 3rd Qu.: 121.0                            3rd Qu.: 121.0                     
+ Max.   :4883.0                            Max.   :4887.0                     
+                                                                              
+ Number Hospitals Reporting Inpatient Beds Occupied
+ Min.   :   0.0                                    
+ 1st Qu.:  33.0                                    
+ Median :  72.0                                    
+ Mean   : 165.8                                    
+ 3rd Qu.: 121.0                                    
+ Max.   :4883.0                                    
+                                                   
+ Number Hospitals Reporting ICU Beds Occupied
+ Min.   :   0.0                              
+ 1st Qu.:  33.0                              
+ Median :  71.0                              
+ Mean   : 164.8                              
+ 3rd Qu.: 116.0                              
+ Max.   :4879.0                              
+                                             
+ Number Hospitals Reporting Percent Inpatient Bed Occupancy
+ Min.   :   0.0                                            
+ 1st Qu.:  33.0                                            
+ Median :  72.0                                            
+ Mean   : 165.8                                            
+ 3rd Qu.: 121.0                                            
+ Max.   :4883.0                                            
+                                                           
+ Number Hospitals Reporting Percent ICU Bed Occupancy
+ Min.   :   0.0                                      
+ 1st Qu.:  33.0                                      
+ Median :  71.0                                      
+ Mean   : 164.8                                      
+ 3rd Qu.: 116.0                                      
+ Max.   :4879.0                                      
+                                                     
+ Number Hospitals Reporting Percent COVID-19 Inpatient Bed Occupancy
+ Min.   :   0.0                                                     
+ 1st Qu.:  33.0                                                     
+ Median :  71.0                                                     
+ Mean   : 165.4                                                     
+ 3rd Qu.: 121.0                                                     
+ Max.   :4883.0                                                     
+                                                                    
+ Number Hospitals Reporting Percent Influenza Inpatient Bed Occupancy
+ Min.   :   0.0                                                      
+ 1st Qu.:  26.0                                                      
+ Median :  62.0                                                      
+ Mean   : 152.4                                                      
+ 3rd Qu.: 114.0                                                      
+ Max.   :4883.0                                                      
+                                                                     
+ Number Hospitals Reporting Percent COVID-19 ICU Bed Occupancy
+ Min.   :   0.0                                               
+ 1st Qu.:  33.0                                               
+ Median :  72.0                                               
+ Mean   : 165.9                                               
+ 3rd Qu.: 121.0                                               
+ Max.   :4887.0                                               
+                                                              
+ Number Hospitals Reporting Percent Influenza ICU Bed Occupancy
+ Min.   :   0.0                                                
+ 1st Qu.:  26.0                                                
+ Median :  62.0                                                
+ Mean   : 152.7                                                
+ 3rd Qu.: 114.0                                                
+ Max.   :4887.0                                                
+                                                               
+ Number Hospitals Reporting Total COVID-19 Admissions
+ Min.   :   0.0                                      
+ 1st Qu.:  33.0                                      
+ Median :  72.0                                      
+ Mean   : 166.5                                      
+ 3rd Qu.: 121.0                                      
+ Max.   :4887.0                                      
+                                                     
+ Number Hospitals Reporting Prevalent COVID-19 Hospitalizations
+ Min.   :   0.0                                                
+ 1st Qu.:  33.0                                                
+ Median :  72.0                                                
+ Mean   : 166.1                                                
+ 3rd Qu.: 121.0                                                
+ Max.   :4887.0                                                
+                                                               
+ Number Hospitals Reporting Hospitalized COVID-19 ICU Patients
+ Min.   :   0.0                                               
+ 1st Qu.:  33.0                                               
+ Median :  72.0                                               
+ Mean   : 165.5                                               
+ 3rd Qu.: 121.0                                               
+ Max.   :4887.0                                               
+                                                              
+ Weekly Average Adult COVID-19 Admissions
+ Min.   :    0.0                         
+ 1st Qu.:   10.0                         
+ Median :   33.0                         
+ Mean   :  165.4                         
+ 3rd Qu.:   93.0                         
+ Max.   :20287.0                         
+ NA's   :177                             
+ Weekly Total Adult COVID-19 Admissions
+ Min.   :     0.0                      
+ 1st Qu.:    73.0                      
+ Median :   229.5                      
+ Mean   :  1157.7                      
+ 3rd Qu.:   653.0                      
+ Max.   :142007.0                      
+ NA's   :177                           
+ Weekly Average Pediatric COVID-19 Admissions
+ Min.   :  0.000                             
+ 1st Qu.:  0.000                             
+ Median :  1.000                             
+ Mean   :  5.648                             
+ 3rd Qu.:  3.000                             
+ Max.   :907.000                             
+ NA's   :186                                 
+ Weekly Total Pediatric COVID-19 Admissions Weekly Average COVID-19 Admissions
+ Min.   :   0.00                            Min.   :    0.0                   
+ 1st Qu.:   2.00                            1st Qu.:   11.0                   
+ Median :   9.00                            Median :   34.0                   
+ Mean   :  39.74                            Mean   :  171.1                   
+ 3rd Qu.:  23.00                            3rd Qu.:   97.0                   
+ Max.   :6351.00                            Max.   :21194.0                   
+ NA's   :186                                NA's   :177                       
+ Weekly Total COVID-19 Admissions Weekly Average Influenza Admissions
+ Min.   :     0                   Min.   :   0.00                    
+ 1st Qu.:    78                   1st Qu.:   0.00                    
+ Median :   240                   Median :   1.00                    
+ Mean   :  1197                   Mean   :  14.42                    
+ 3rd Qu.:   676                   3rd Qu.:   5.00                    
+ Max.   :148358                   Max.   :3697.00                    
+ NA's   :177                      NA's   :692                        
+ Weekly Total Influenza Admissions
+ Min.   :    0.0                  
+ 1st Qu.:    1.0                  
+ Median :    9.0                  
+ Mean   :  101.1                  
+ 3rd Qu.:   37.0                  
+ Max.   :25882.0                  
+ NA's   :692                      
+ Weekly Average Prevalent COVID-19 Hospitalizations
+ Min.   :     0.0                                  
+ 1st Qu.:    68.0                                  
+ Median :   222.0                                  
+ Mean   :  1202.0                                  
+ 3rd Qu.:   654.8                                  
+ Max.   :144095.0                                  
+ NA's   :177                                       
+ Weekly Average Prevalent Influenza Hospitalizations
+ Min.   :    0.0                                    
+ 1st Qu.:    1.0                                    
+ Median :    7.0                                    
+ Mean   :   75.9                                    
+ 3rd Qu.:   29.0                                    
+ Max.   :15926.0                                    
+ NA's   :700                                        
+ Weekly Average Hospitalized COVID-19 ICU Patients
+ Min.   :    0.0                                  
+ 1st Qu.:   10.0                                  
+ Median :   38.0                                  
+ Mean   :  247.6                                  
+ 3rd Qu.:  130.0                                  
+ Max.   :26475.0                                  
+ NA's   :188                                      
+ Weekly Average Hospitalized Influenza ICU Patients
+ Min.   :   0.00                                   
+ 1st Qu.:   0.00                                   
+ Median :   1.00                                   
+ Mean   :  12.06                                   
+ 3rd Qu.:   4.00                                   
+ Max.   :2334.00                                   
+ NA's   :692                                       
+ Weekly Average Inpatient Beds Weekly Average ICU Beds
+ Min.   :     7                Min.   :     0         
+ 1st Qu.:  2693                1st Qu.:   366         
+ Median :  7915                Median :  1192         
+ Mean   : 23555                Mean   :  3538         
+ 3rd Qu.: 16131                3rd Qu.:  2533         
+ Max.   :711091                Max.   :113184         
+ NA's   :177                   NA's   :177            
+ Weekly Average Inpatient Beds Occupied Weekly Average ICU Beds Occupied
+ Min.   :     7                         Min.   :    0                   
+ 1st Qu.:  1992                         1st Qu.:  251                   
+ Median :  5571                         Median :  812                   
+ Mean   : 17548                         Mean   : 2497                   
+ 3rd Qu.: 11709                         3rd Qu.: 1642                   
+ Max.   :538595                         Max.   :82717                   
+ NA's   :177                            NA's   :192                     
+ Weekly Average Percent Inpatient Bed Occupancy
+ Min.   :0.3100                                
+ 1st Qu.:0.6700                                
+ Median :0.7300                                
+ Mean   :0.7203                                
+ 3rd Qu.:0.7900                                
+ Max.   :1.0300                                
+ NA's   :177                                   
+ Weekly Average Percent ICU Bed Occupancy
+ Min.   :0.0000                          
+ 1st Qu.:0.6300                          
+ Median :0.7000                          
+ Mean   :0.6843                          
+ 3rd Qu.:0.7600                          
+ Max.   :1.0000                          
+ NA's   :200                             
+ Weekly Average Percent COVID-19 Inpatient Bed Occupancy
+ Min.   :0.00000                                        
+ 1st Qu.:0.01000                                        
+ Median :0.03000                                        
+ Mean   :0.04447                                        
+ 3rd Qu.:0.05000                                        
+ Max.   :0.35000                                        
+ NA's   :177                                            
+ Weekly Average Percent Influenza Inpatient Bed Occupancy
+ Min.   :0.0000                                          
+ 1st Qu.:0.0000                                          
+ Median :0.0000                                          
+ Mean   :0.0024                                          
+ 3rd Qu.:0.0000                                          
+ Max.   :0.0700                                          
+ NA's   :695                                             
+ Weekly Average Percent COVID-19 ICU Bed Occupancy
+ Min.   :0.00000                                  
+ 1st Qu.:0.01000                                  
+ Median :0.03000                                  
+ Mean   :0.06093                                  
+ 3rd Qu.:0.08000                                  
+ Max.   :0.68000                                  
+ NA's   :196                                      
+ Weekly Average Percent Influenza ICU Bed Occupancy
+ Min.   :0.0000                                    
+ 1st Qu.:0.0000                                    
+ Median :0.0000                                    
+ Mean   :0.0027                                    
+ 3rd Qu.:0.0000                                    
+ Max.   :0.0900                                    
+ NA's   :730                                       
+ Percent Adult COVID-19 Admissions Percent Pediatric COVID-19 Admissions
+ Min.   :0.0000                    Min.   :0.0000                       
+ 1st Qu.:0.9500                    1st Qu.:0.0200                       
+ Median :0.9700                    Median :0.0300                       
+ Mean   :0.9544                    Mean   :0.0456                       
+ 3rd Qu.:0.9800                    3rd Qu.:0.0500                       
+ Max.   :1.0000                    Max.   :1.0000                       
+ NA's   :449                       NA's   :449                          
+ Percent Hospitals Reporting Adult COVID-19 Admissions
+ Min.   :0.0000                                       
+ 1st Qu.:0.9700                                       
+ Median :0.9900                                       
+ Mean   :0.9488                                       
+ 3rd Qu.:1.0000                                       
+ Max.   :1.0000                                       
+                                                      
+ Percent Hospitals Reporting Pediatric COVID-19 Admissions
+ Min.   :0.0000                                           
+ 1st Qu.:0.9700                                           
+ Median :0.9900                                           
+ Mean   :0.9431                                           
+ 3rd Qu.:1.0000                                           
+ Max.   :1.0000                                           
+                                                          
+ Percent Hospitals Reporting Influenza Admissions
+ Min.   :0.0000                                  
+ 1st Qu.:0.9500                                  
+ Median :0.9800                                  
+ Mean   :0.8755                                  
+ 3rd Qu.:1.0000                                  
+ Max.   :1.0000                                  
+                                                 
+ Percent Hospitals Reporting Prevalent Influenza Hospitalizations
+ Min.   :0.0000                                                  
+ 1st Qu.:0.9500                                                  
+ Median :0.9800                                                  
+ Mean   :0.8757                                                  
+ 3rd Qu.:1.0000                                                  
+ Max.   :1.0000                                                  
+                                                                 
+ Percent Hospitals Reporting Hospitalized Influenza ICU Patients
+ Min.   :0.0000                                                 
+ 1st Qu.:0.9500                                                 
+ Median :0.9800                                                 
+ Mean   :0.8755                                                 
+ 3rd Qu.:1.0000                                                 
+ Max.   :1.0000                                                 
+                                                                
+ Percent Hospitals Reporting Inpatient Beds
+ Min.   :0.0000                            
+ 1st Qu.:0.9600                            
+ Median :0.9800                            
+ Mean   :0.9451                            
+ 3rd Qu.:1.0000                            
+ Max.   :1.0000                            
+                                           
+ Percent Hospitals Reporting ICU Beds
+ Min.   :0.0000                      
+ 1st Qu.:0.9700                      
+ Median :0.9900                      
+ Mean   :0.9479                      
+ 3rd Qu.:1.0000                      
+ Max.   :1.0000                      
+                                     
+ Percent Hospitals Reporting Inpatient Beds Occupied
+ Min.   :0.0000                                     
+ 1st Qu.:0.9600                                     
+ Median :0.9800                                     
+ Mean   :0.9451                                     
+ 3rd Qu.:1.0000                                     
+ Max.   :1.0000                                     
+                                                    
+ Percent Hospitals Reporting ICU Beds Occupied
+ Min.   :0.0000                               
+ 1st Qu.:0.9600                               
+ Median :0.9800                               
+ Mean   :0.9383                               
+ 3rd Qu.:1.0000                               
+ Max.   :1.0000                               
+                                              
+ Percent Hospitals Reporting Percent Inpatient Bed Occupancy
+ Min.   :0.0000                                             
+ 1st Qu.:0.9600                                             
+ Median :0.9800                                             
+ Mean   :0.9451                                             
+ 3rd Qu.:1.0000                                             
+ Max.   :1.0000                                             
+                                                            
+ Percent Hospitals Reporting Percent ICU Bed Occupancy
+ Min.   :0.0000                                       
+ 1st Qu.:0.9600                                       
+ Median :0.9800                                       
+ Mean   :0.9383                                       
+ 3rd Qu.:1.0000                                       
+ Max.   :1.0000                                       
+                                                      
+ Percent Hospitals Reporting Percent COVID-19 Inpatient Bed Occupancy
+ Min.   :0.000                                                       
+ 1st Qu.:0.960                                                       
+ Median :0.980                                                       
+ Mean   :0.943                                                       
+ 3rd Qu.:1.000                                                       
+ Max.   :1.000                                                       
+                                                                     
+ Percent Hospitals Reporting Percent Influenza Inpatient Bed Occupancy
+ Min.   :0.0000                                                       
+ 1st Qu.:0.9500                                                       
+ Median :0.9800                                                       
+ Mean   :0.8738                                                       
+ 3rd Qu.:1.0000                                                       
+ Max.   :1.0000                                                       
+                                                                      
+ Percent Hospitals Reporting Percent COVID-19 ICU Bed Occupancy
+ Min.   :0.0000                                                
+ 1st Qu.:0.9700                                                
+ Median :0.9900                                                
+ Mean   :0.9456                                                
+ 3rd Qu.:1.0000                                                
+ Max.   :1.0000                                                
+                                                               
+ Percent Hospitals Reporting Percent Influenza ICU Bed Occupancy
+ Min.   :0.0000                                                 
+ 1st Qu.:0.9500                                                 
+ Median :0.9800                                                 
+ Mean   :0.8753                                                 
+ 3rd Qu.:1.0000                                                 
+ Max.   :1.0000                                                 
+                                                                
+ Percent Hospitals Reporting Total COVID-19 Admissions
+ Min.   :0.0000                                       
+ 1st Qu.:0.9700                                       
+ Median :0.9900                                       
+ Mean   :0.9489                                       
+ 3rd Qu.:1.0000                                       
+ Max.   :1.0000                                       
+                                                      
+ Percent Hospitals Reporting Prevalent COVID-19 Hospitalizations
+ Min.   :0.000                                                  
+ 1st Qu.:0.970                                                  
+ Median :0.990                                                  
+ Mean   :0.947                                                  
+ 3rd Qu.:1.000                                                  
+ Max.   :1.000                                                  
+                                                                
+ Percent Hospitals Reporting Hospitalized COVID-19 ICU Patients
+ Min.   :0.0000                                                
+ 1st Qu.:0.9700                                                
+ Median :0.9800                                                
+ Mean   :0.9429                                                
+ 3rd Qu.:1.0000                                                
+ Max.   :1.0000                                                
+                                                               </code></pre>
+</div>
+</div>
+<p><strong>Next, I will process the data: Handle any missing values or non-standard codes and select relevant columns for analysis.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert date column to Date type</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>cdcdata <span class="ot">&lt;-</span> cdcdata <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">Week Ending Date</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">as.Date</span>(<span class="st">`</span><span class="at">Week Ending Date</span><span class="st">`</span>, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_all</span>(<span class="sc">~</span><span class="fu">ifelse</span>(. <span class="sc">==</span> <span class="dv">999</span>, <span class="cn">NA</span>, .))</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Select relevant columns for analysis</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>selected_data <span class="ot">&lt;-</span> cdcdata <span class="sc">%&gt;%</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Week Ending Date</span><span class="st">`</span>, <span class="st">`</span><span class="at">Geographic aggregation</span><span class="st">`</span>, <span class="st">`</span><span class="at">Number Hospitals Reporting Adult COVID-19 Admissions</span><span class="st">`</span>, <span class="st">`</span><span class="at">Weekly Average Percent COVID-19 Inpatient Bed Occupancy</span><span class="st">`</span>, <span class="st">`</span><span class="at">Weekly Average COVID-19 Admissions</span><span class="st">`</span>, <span class="st">`</span><span class="at">Percent Hospitals Reporting Inpatient Beds Occupied</span><span class="st">`</span>, <span class="st">`</span><span class="at">Weekly Average Inpatient Beds Occupied</span><span class="st">`</span>, <span class="st">`</span><span class="at">Weekly Average ICU Beds Occupied</span><span class="st">`</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the cleaned data</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(selected_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 8
+  `Week Ending Date` `Geographic aggregation` Number Hospitals Reporting Adult…¹
+               &lt;dbl&gt; &lt;chr&gt;                                                 &lt;dbl&gt;
+1              18482 AL                                                       60
+2              18489 AL                                                       66
+3              18496 AL                                                       78
+4              18503 AL                                                       90
+5              18510 AL                                                       94
+6              18517 AL                                                       94
+# ℹ abbreviated name: ¹​`Number Hospitals Reporting Adult COVID-19 Admissions`
+# ℹ 5 more variables:
+#   `Weekly Average Percent COVID-19 Inpatient Bed Occupancy` &lt;dbl&gt;,
+#   `Weekly Average COVID-19 Admissions` &lt;dbl&gt;,
+#   `Percent Hospitals Reporting Inpatient Beds Occupied` &lt;dbl&gt;,
+#   `Weekly Average Inpatient Beds Occupied` &lt;dbl&gt;,
+#   `Weekly Average ICU Beds Occupied` &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(selected_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Week Ending Date Geographic aggregation
+ Min.   :18482    Length:11571          
+ 1st Qu.:18832    Class :character      
+ Median :19189    Mode  :character      
+ Mean   :19189                          
+ 3rd Qu.:19546                          
+ Max.   :19896                          
+                                        
+ Number Hospitals Reporting Adult COVID-19 Admissions
+ Min.   :   0.0                                      
+ 1st Qu.:  33.0                                      
+ Median :  72.0                                      
+ Mean   : 166.4                                      
+ 3rd Qu.: 121.0                                      
+ Max.   :4887.0                                      
+                                                     
+ Weekly Average Percent COVID-19 Inpatient Bed Occupancy
+ Min.   :0.00000                                        
+ 1st Qu.:0.01000                                        
+ Median :0.03000                                        
+ Mean   :0.04447                                        
+ 3rd Qu.:0.05000                                        
+ Max.   :0.35000                                        
+ NA's   :177                                            
+ Weekly Average COVID-19 Admissions
+ Min.   :    0.0                   
+ 1st Qu.:   11.0                   
+ Median :   34.0                   
+ Mean   :  170.9                   
+ 3rd Qu.:   97.0                   
+ Max.   :21194.0                   
+ NA's   :179                       
+ Percent Hospitals Reporting Inpatient Beds Occupied
+ Min.   :0.0000                                     
+ 1st Qu.:0.9600                                     
+ Median :0.9800                                     
+ Mean   :0.9451                                     
+ 3rd Qu.:1.0000                                     
+ Max.   :1.0000                                     
+                                                    
+ Weekly Average Inpatient Beds Occupied Weekly Average ICU Beds Occupied
+ Min.   :     7                         Min.   :    0                   
+ 1st Qu.:  1992                         1st Qu.:  251                   
+ Median :  5571                         Median :  812                   
+ Mean   : 17548                         Mean   : 2497                   
+ 3rd Qu.: 11709                         3rd Qu.: 1642                   
+ Max.   :538595                         Max.   :82717                   
+ NA's   :177                            NA's   :195                     </code></pre>
+</div>
+</div>
+</section>
+<section id="exploratory-data-analysis" class="level1">
+<h1>Exploratory Data Analysis</h1>
+<p><strong>In this section, I will perform some exploratory/descriptive analysis on this cleaned dataset.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary table of key variables</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(selected_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Week Ending Date Geographic aggregation
+ Min.   :18482    Length:11571          
+ 1st Qu.:18832    Class :character      
+ Median :19189    Mode  :character      
+ Mean   :19189                          
+ 3rd Qu.:19546                          
+ Max.   :19896                          
+                                        
+ Number Hospitals Reporting Adult COVID-19 Admissions
+ Min.   :   0.0                                      
+ 1st Qu.:  33.0                                      
+ Median :  72.0                                      
+ Mean   : 166.4                                      
+ 3rd Qu.: 121.0                                      
+ Max.   :4887.0                                      
+                                                     
+ Weekly Average Percent COVID-19 Inpatient Bed Occupancy
+ Min.   :0.00000                                        
+ 1st Qu.:0.01000                                        
+ Median :0.03000                                        
+ Mean   :0.04447                                        
+ 3rd Qu.:0.05000                                        
+ Max.   :0.35000                                        
+ NA's   :177                                            
+ Weekly Average COVID-19 Admissions
+ Min.   :    0.0                   
+ 1st Qu.:   11.0                   
+ Median :   34.0                   
+ Mean   :  170.9                   
+ 3rd Qu.:   97.0                   
+ Max.   :21194.0                   
+ NA's   :179                       
+ Percent Hospitals Reporting Inpatient Beds Occupied
+ Min.   :0.0000                                     
+ 1st Qu.:0.9600                                     
+ Median :0.9800                                     
+ Mean   :0.9451                                     
+ 3rd Qu.:1.0000                                     
+ Max.   :1.0000                                     
+                                                    
+ Weekly Average Inpatient Beds Occupied Weekly Average ICU Beds Occupied
+ Min.   :     7                         Min.   :    0                   
+ 1st Qu.:  1992                         1st Qu.:  251                   
+ Median :  5571                         Median :  812                   
+ Mean   : 17548                         Mean   : 2497                   
+ 3rd Qu.: 11709                         3rd Qu.: 1642                   
+ Max.   :538595                         Max.   :82717                   
+ NA's   :177                            NA's   :195                     </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the distribution of Weekly Average COVID-19 Admissions</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(selected_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Weekly Average COVID-19 Admissions</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">500</span>, <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Weekly Average COVID-19 Admissions"</span>, <span class="at">x =</span> <span class="st">"Weekly Average COVID-19 Admissions"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 179 rows containing non-finite values (`stat_bin()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This histogram shows the distribution of Weekly Average COVID-19 Admissions across the different jurisdictions. The majority of jurisdictions report fewer than 2000 admissions per week, with a long tail indicating that a few jurisdictions have significantly higher weekly admissions.</p>
+<p>I can see a very high frequency of lower values with a significant right skew. Most of the data points are clustered around the lower range of weekly average COVID-19 admissions, with a few outliers having very high values. This indicates that most jurisdictions have relatively low weekly average COVID-19 admissions, while a few have extremely high numbers.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the distribution of Weekly Average Inpatient Beds Occupied</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(selected_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Weekly Average Inpatient Beds Occupied</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">500</span>, <span class="at">fill =</span> <span class="st">"black"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Weekly Average Inpatient Beds Occupied"</span>, <span class="at">x =</span> <span class="st">"Weekly Average Inpatient Beds Occupied"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 177 rows containing non-finite values (`stat_bin()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This histogram shows the distribution of Weekly Average Inpatient Beds Occupied. Similar to the previous plot, most jurisdictions have fewer than 2000 occupied inpatient beds per week, with a few jurisdictions having significantly higher numbers.</p>
+<p>Similar to the previous histogram, this one also exhibits a strong right skew. Most jurisdictions have a lower number of weekly average inpatient beds occupied, with a few outliers at the higher end. The concentration of data points at the lower end suggests that most regions did not see a large number of inpatient beds occupied weekly.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the distribution of Weekly Average ICU Beds Occupied</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(selected_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Weekly Average ICU Beds Occupied</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">500</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Weekly Average ICU Beds Occupied"</span>, <span class="at">x =</span> <span class="st">"Weekly Average ICU Beds Occupied"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 195 rows containing non-finite values (`stat_bin()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This histogram shows the distribution of Weekly Average ICU Beds Occupied. The distribution is skewed towards lower numbers, with most jurisdictions reporting fewer than 500 ICU beds occupied per week.</p>
+<p>This histogram also shows a right-skewed distribution, indicating that the majority of jurisdictions have a lower weekly average of ICU beds occupied. The distribution is similar to that of inpatient beds but with ICU-specific data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of categorical variable 'Geographic aggregation'</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>geo_summary <span class="ot">&lt;-</span> selected_data <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="st">`</span><span class="at">Geographic aggregation</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(count))</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>geo_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 57 × 2
+   `Geographic aggregation` count
+   &lt;chr&gt;                    &lt;int&gt;
+ 1 AK                         203
+ 2 AL                         203
+ 3 AR                         203
+ 4 AS                         203
+ 5 AZ                         203
+ 6 CA                         203
+ 7 CO                         203
+ 8 CT                         203
+ 9 DC                         203
+10 DE                         203
+# ℹ 47 more rows</code></pre>
+</div>
+</div>
+<p>This summary table shows the count of data points for each Geographic aggregation. This helps us understand the distribution of the data across different jurisdictions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of categorical variable 'Geographic aggregation'</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>geo_summary <span class="ot">&lt;-</span> selected_data <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="st">`</span><span class="at">Geographic aggregation</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(count))</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for top 5 and bottom 5 states by count</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>top_5_states <span class="ot">&lt;-</span> geo_summary <span class="sc">%&gt;%</span> <span class="fu">top_n</span>(<span class="dv">5</span>, count)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>bottom_5_states <span class="ot">&lt;-</span> geo_summary <span class="sc">%&gt;%</span> <span class="fu">top_n</span>(<span class="sc">-</span><span class="dv">5</span>, count)</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine top and bottom 5 states</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>selected_states <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(top_5_states, bottom_5_states)</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter the data for these states</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>filtered_data <span class="ot">&lt;-</span> selected_data <span class="sc">%&gt;%</span> </span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Geographic aggregation</span><span class="st">`</span> <span class="sc">%in%</span> selected_states<span class="sc">$</span><span class="st">`</span><span class="at">Geographic aggregation</span><span class="st">`</span>)</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the percentage of data points per Geographic aggregation for selected states</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(filtered_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(<span class="st">`</span><span class="at">Geographic aggregation</span><span class="st">`</span>, <span class="sc">-</span><span class="st">`</span><span class="at">Weekly Average COVID-19 Admissions</span><span class="st">`</span>), <span class="at">y =</span> <span class="st">`</span><span class="at">Weekly Average COVID-19 Admissions</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"orange"</span>) <span class="sc">+</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Weekly Average COVID-19 Admissions for Selected States"</span>, <span class="at">x =</span> <span class="st">"Geographic Aggregation"</span>, <span class="at">y =</span> <span class="st">"Weekly Average COVID-19 Admissions"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 179 rows containing missing values (`position_stack()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This bar plot shows the Weekly Average COVID-19 Admissions for the top 5 and bottom 5 states. This helps us identify states with the highest and lowest average admissions.</p>
+<p>This bar plot depicts the weekly average COVID-19 admissions for selected states. The plot highlights the stark contrast between states with very high and very low average COVID-19 admissions. It visually demonstrates that while most states have low to moderate admissions, a few have extremely high numbers.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create boxplot for Weekly Average Percent COVID-19 Inpatient Bed Occupancy</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(filtered_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Geographic aggregation</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Weekly Average Percent COVID-19 Inpatient Bed Occupancy</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"darkblue"</span>) <span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot of Weekly Average Percent COVID-19 Inpatient Bed Occupancy by State"</span>, <span class="at">x =</span> <span class="st">"Geographic Aggregation"</span>, <span class="at">y =</span> <span class="st">"Weekly Average Percent COVID-19 Inpatient Bed Occupancy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 177 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This boxplot shows the distribution of Weekly Average Percent COVID-19 Inpatient Bed Occupancy across the selected states. It provides insights into the central tendency and variability of bed occupancy in these states.</p>
+<p>This boxplot reveals the variation in the weekly average percent COVID-19 inpatient bed occupancy across different states. Some states have a higher median occupancy rate and more spread out data points, indicating greater variability in bed occupancy percentages.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create boxplot for Percent Hospitals Reporting Inpatient Beds Occupied</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(filtered_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Geographic aggregation</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Percent Hospitals Reporting Inpatient Beds Occupied</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightgreen"</span>, <span class="at">color =</span> <span class="st">"darkgreen"</span>) <span class="sc">+</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot of Percent Hospitals Reporting Inpatient Beds Occupied by State"</span>, <span class="at">x =</span> <span class="st">"Geographic Aggregation"</span>, <span class="at">y =</span> <span class="st">"Percent Hospitals Reporting Inpatient Beds Occupied"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This boxplot shows the distribution of Percent Hospitals Reporting Inpatient Beds Occupied across the selected states. It helps us understand the proportion of hospitals reporting occupied beds in each state.</p>
+<p>This boxplot shows the percent of hospitals reporting inpatient beds occupied across different states. Most states have a high percentage of hospitals reporting inpatient beds occupied, close to 100%, with some variability. This suggests that hospital bed occupancy reporting is consistent across most jurisdictions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create boxplot for Weekly Average Inpatient Beds Occupied</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(filtered_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Geographic aggregation</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Weekly Average Inpatient Beds Occupied</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightcoral"</span>, <span class="at">color =</span> <span class="st">"darkred"</span>) <span class="sc">+</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot of Weekly Average Inpatient Beds Occupied by State"</span>, <span class="at">x =</span> <span class="st">"Geographic Aggregation"</span>, <span class="at">y =</span> <span class="st">"Weekly Average Inpatient Beds Occupied"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 177 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This boxplot shows the distribution of Weekly Average Inpatient Beds Occupied across the selected states. It provides insights into the central tendency and variability of inpatient bed occupancy in these states.</p>
+<p>This boxplot indicates the weekly average number of inpatient beds occupied by state. There is a noticeable variation between states, with some having a significantly higher number of occupied beds on average. The presence of outliers suggests that certain states experienced unusually high occupancy levels.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create boxplot for Weekly Average ICU Beds Occupied</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(filtered_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Geographic aggregation</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Weekly Average ICU Beds Occupied</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightpink"</span>, <span class="at">color =</span> <span class="st">"darkred"</span>) <span class="sc">+</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot of Weekly Average ICU Beds Occupied by State"</span>, <span class="at">x =</span> <span class="st">"Geographic Aggregation"</span>, <span class="at">y =</span> <span class="st">"Weekly Average ICU Beds Occupied"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 195 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This boxplot shows the distribution of Weekly Average ICU Beds Occupied across the selected states. It provides insights into the central tendency and variability of ICU bed occupancy in these states.</p>
+<p>Similar to the inpatient beds occupied boxplot, this one shows the weekly average number of ICU beds occupied by state. The variation among states is evident, with some states having higher averages and others lower. The outliers indicate states with exceptionally high ICU bed occupancy.</p>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion:</h1>
+<p>Overall, these plots illustrate the significant variability in COVID-19-related hospital metrics across different jurisdictions. The data is heavily skewed in many cases, indicating that while most areas experienced moderate levels, a few regions faced extremely high demands on their healthcare systems. The boxplots highlight the differences in hospital bed occupancy and reporting consistency across states, providing valuable insights into the impact of COVID-19 on healthcare resources.</p>
+<p>This section contributed by <strong>Sri Lakshmi Sudha Ganni</strong></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

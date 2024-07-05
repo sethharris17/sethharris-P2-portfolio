@@ -190,6 +190,11 @@ This boxplot shows the distribution of Weekly Average ICU Beds Occupied across t
 
 Similar to the inpatient beds occupied boxplot, this one shows the weekly average number of ICU beds occupied by state. The variation among states is evident, with some states having higher averages and others lower. The outliers indicate states with exceptionally high ICU bed occupancy.
 
-# Conclusion: 
+# Conclusion:
 
 Overall, these plots illustrate the significant variability in COVID-19-related hospital metrics across different jurisdictions. The data is heavily skewed in many cases, indicating that while most areas experienced moderate levels, a few regions faced extremely high demands on their healthcare systems. The boxplots highlight the differences in hospital bed occupancy and reporting consistency across states, providing valuable insights into the impact of COVID-19 on healthcare resources.
+
+This section contributed by **Sri Lakshmi Sudha Ganni**
+
+
+
