@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Seth Harris">
-<meta name="dcterms.date" content="2024-07-02">
+<meta name="dcterms.date" content="2024-07-05">
 
 <title>Seth Harris Data Analysis Portfolio - CDC Data Exploration on Weekly United States Hospitalization Metrics by Jurisdiction</title>
 <style>
@@ -192,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 2, 2024</p>
+      <p class="date">July 5, 2024</p>
     </div>
   </div>
   
@@ -1139,7 +1139,7 @@ https://debruine.github.io/faux/
 <span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Weekly Average Percent COVID-19 Inpatient Bed Occupancy</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">runif</span>(n, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">100</span>), <span class="dv">2</span>),</span>
 <span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Weekly Average COVID-19 Admissions</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">1000</span>, <span class="at">sd =</span> <span class="dv">500</span>)),</span>
 <span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Percent Hospitals Reporting Inpatient Beds Occupied</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">runif</span>(n, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">100</span>), <span class="dv">2</span>),</span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Weekly Average Inpatient Beds Occupied</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">2000</span>, <span class="at">sd =</span> <span class="dv">800</span>)),</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Weekly Average Inpatient Beds Occupied</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">rexp</span>(n, <span class="at">rate =</span> <span class="fl">0.001</span>)),  <span class="co"># Right-skewed distribution</span></span>
 <span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Weekly Average ICU Beds Occupied</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">500</span>, <span class="at">sd =</span> <span class="dv">200</span>))</span>
 <span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1185,12 +1185,12 @@ https://debruine.github.io/faux/
 5                                               24.64
 6                                               94.77
   Weekly.Average.Inpatient.Beds.Occupied Weekly.Average.ICU.Beds.Occupied
-1                                   2933                              501
-2                                  -1060                              741
-3                                   2779                              500
-4                                    500                              327
-5                                   2557                              453
-6                                    759                              -75</code></pre>
+1                                      0                              -85
+2                                   2709                              420
+3                                    670                              -47
+4                                   1407                              409
+5                                    514                              687
+6                                     42                              432</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(synthetic_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1230,12 +1230,12 @@ https://debruine.github.io/faux/
  3rd Qu.:76.63                                      
  Max.   :99.76                                      
  Weekly.Average.Inpatient.Beds.Occupied Weekly.Average.ICU.Beds.Occupied
- Min.   :-1060                          Min.   : -88.0                  
- 1st Qu.: 1480                          1st Qu.: 382.5                  
- Median : 2044                          Median : 495.5                  
- Mean   : 1993                          Mean   : 499.6                  
- 3rd Qu.: 2524                          3rd Qu.: 628.2                  
- Max.   : 5081                          Max.   :1050.0                  </code></pre>
+ Min.   :   0.0                         Min.   : -85.0                  
+ 1st Qu.: 298.8                         1st Qu.: 375.0                  
+ Median : 697.0                         Median : 488.5                  
+ Mean   :1007.5                         Mean   : 490.2                  
+ 3rd Qu.:1339.0                         3rd Qu.: 626.0                  
+ Max.   :6945.0                         Max.   :1050.0                  </code></pre>
 </div>
 </div>
 <p>Perform Exploratory Data Analysis (EDA):</p>
@@ -1281,12 +1281,12 @@ https://debruine.github.io/faux/
  3rd Qu.:76.63                                      
  Max.   :99.76                                      
  Weekly.Average.Inpatient.Beds.Occupied Weekly.Average.ICU.Beds.Occupied
- Min.   :-1060                          Min.   : -88.0                  
- 1st Qu.: 1480                          1st Qu.: 382.5                  
- Median : 2044                          Median : 495.5                  
- Mean   : 1993                          Mean   : 499.6                  
- 3rd Qu.: 2524                          3rd Qu.: 628.2                  
- Max.   : 5081                          Max.   :1050.0                  </code></pre>
+ Min.   :   0.0                         Min.   : -85.0                  
+ 1st Qu.: 298.8                         1st Qu.: 375.0                  
+ Median : 697.0                         Median : 488.5                  
+ Mean   :1007.5                         Mean   : 490.2                  
+ 3rd Qu.:1339.0                         3rd Qu.: 626.0                  
+ Max.   :6945.0                         Max.   :1050.0                  </code></pre>
 </div>
 </div>
 </section>
@@ -1306,13 +1306,21 @@ https://debruine.github.io/faux/
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Description of the Plot:</p>
+<p>The histogram shown in the plot visualizes the distribution of Weekly Average COVID-19 Admissions from the synthetic dataset. Here are the key observations:</p>
+<p>X-axis: The Weekly Average COVID-19 Admissions, ranging from 0 to 50,000.</p>
+<p>Y-axis: The Frequency, indicating the number of jurisdictions reporting particular ranges of weekly average COVID-19 admissions.</p>
+<p>The distribution is highly right-skewed, with most jurisdictions reporting relatively low weekly average COVID-19 admissions.</p>
+<p>There is a significant concentration of data points on the lower end of the spectrum, with the majority of the frequencies clustered around the lower values.</p>
+<p>The long tail to the right indicates the presence of outliers, jurisdictions with exceptionally high weekly average COVID-19 admissions. Interpretation.</p>
+<p>The histogram effectively illustrates the disparity in COVID-19 impact across different jurisdictions, showing that while most areas experienced lower average admissions, a few regions faced extremely high admissions, pointing to potential hotspots or areas with larger outbreaks during the reporting period. This pattern can inform public health officials and policymakers about resource allocation and preparedness strategies.</p>
 </section>
 <section id="plot-the-distribution-of-weekly-average-inpatient-beds-occupied" class="level1">
 <h1>Plot the distribution of Weekly Average Inpatient Beds Occupied:</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(synthetic_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Weekly.Average.Percent.COVID.19.Inpatient.Bed.Occupancy</span><span class="st">`</span>)) <span class="sc">+</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Weekly Average Inpatient Beds Occupied"</span>, <span class="at">x =</span> <span class="st">"Weekly Average Inpatient Beds Occupied"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)<span class="sc">+</span><span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">150</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Weekly Average Inpatient Beds Occupied"</span>, <span class="at">x =</span> <span class="st">"Weekly Average Inpatient Beds Occupied"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)<span class="sc">+</span><span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
@@ -1323,6 +1331,12 @@ https://debruine.github.io/faux/
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Description of the Plot:</p>
+<p>The histogram shown in the plot visualizes the distribution of Weekly Average Inpatient Beds Occupied from the synthetic dataset. Here are the key observations:</p>
+<p>1.X-axis: The Weekly Average Inpatient Beds Occupied, ranging from 0 to 200.</p>
+<p>2.Y-axis: The Frequency, indicating the number of jurisdictions reporting particular ranges of weekly average inpatient beds occupied.</p>
+<p>This histogram of the synthetic data for Weekly Average Inpatient Beds Occupied provides insights into how inpatient bed occupancy is distributed across different jurisdictions. The relatively even distribution and multiple peaks could indicate varying levels of hospital bed occupancy across regions, possibly influenced by different factors such as the population size, healthcare capacity, and severity of outbreaks.The histogram should show a high concentration of lower values with a long tail extending to the right, indicating a few very high values.</p>
+<p>This distribution highlights that while some jurisdictions have lower inpatient bed occupancy, others experience higher levels, showcasing the diversity in hospital resource utilization.</p>
 </section>
 <section id="plot-the-distribution-of-weekly-average-icu-beds-occupied" class="level1">
 <h1>Plot the distribution of Weekly Average ICU Beds Occupied:</h1>
@@ -1331,7 +1345,7 @@ https://debruine.github.io/faux/
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">50</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span></span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Weekly Average ICU Beds Occupied"</span>, <span class="at">x =</span> <span class="st">"Weekly Average ICU Beds Occupied"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)<span class="sc">+</span><span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">20000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 4 rows containing non-finite values (`stat_bin()`).</code></pre>
+<pre><code>Warning: Removed 5 rows containing non-finite values (`stat_bin()`).</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 2 rows containing missing values (`geom_bar()`).</code></pre>
@@ -1340,6 +1354,12 @@ https://debruine.github.io/faux/
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Description of the Plot:</p>
+<p>The histogram shown in the plot visualizes the distribution of Weekly Average ICU Beds Occupied from the synthetic dataset.</p>
+<p>1.X-axis: The Weekly Average ICU Beds Occupied.</p>
+<p>2.Y-axis: The Frequency, indicating the number of jurisdictions reporting particular ranges of weekly average ICU beds occupied.</p>
+<p>This histogram exhibits a clear right skew. The majority of the data points are concentrated at the lower end of the range (close to 0), with a long tail extending to the right.</p>
+<p>This indicates that the majority of jurisdictions have low to moderate weekly average ICU bed occupancy, but a few jurisdictions experience much higher occupancy levels. This pattern suggests that while most areas manage with fewer occupied ICU beds, certain regions face significant demand, potentially due to higher population densities or more severe outbreaks.</p>
 </section>
 <section id="summary-of-categorical-variable-geographic-aggregation" class="level1">
 <h1>Summary of categorical variable ‘Geographic aggregation’:</h1>
@@ -1401,6 +1421,15 @@ https://debruine.github.io/faux/
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Description of the Plot:</p>
+<p>The bar plot visualizes the Weekly Average COVID-19 Admissions for selected states. Here are the key observations:</p>
+<ol type="1">
+<li>X-axis: The Weekly Average COVID-19 Admissions.</li>
+</ol>
+<p>2.Y-axis: The Geographic Aggregation, representing different selected states.</p>
+<p>This bar plot provides a clear visual comparison of the weekly average COVID-19 admissions across different states. It highlights the states with the highest and lowest average admissions, which can be useful for identifying areas with greater healthcare needs and resource allocation.</p>
+<p>State10: The high average admissions suggest that this state experienced a particularly severe impact from COVID-19, necessitating more healthcare resources and support.</p>
+<p>State1: The lower admissions indicate relatively less strain on the healthcare system in this state compared to others.</p>
 </section>
 <section id="create-boxplot-for-weekly-average-percent-covid-19-inpatient-bed-occupancy" class="level1">
 <h1>Create boxplot for Weekly Average Percent COVID-19 Inpatient Bed Occupancy:</h1>
@@ -1408,11 +1437,17 @@ https://debruine.github.io/faux/
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(filtered_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Geographic.aggregation</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Weekly.Average.Percent.COVID.19.Inpatient.Bed.Occupancy</span><span class="st">`</span>)) <span class="sc">+</span></span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"darkblue"</span>) <span class="sc">+</span></span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot of Weekly Average Percent COVID-19 Inpatient Bed Occupancy by State"</span>, <span class="at">x =</span> <span class="st">"Geographic Aggregation"</span>, <span class="at">y =</span> <span class="st">"Weekly Average Percent COVID-19 Inpatient Bed Occupancy"</span>)<span class="sc">+</span><span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot of Weekly Average Percent COVID-19 Inpatient Bed Occupancy by State"</span>, <span class="at">x =</span> <span class="st">"Geographic Aggregation"</span>, <span class="at">y =</span> <span class="st">"Weekly Average Percent COVID-19 Inpatient Bed Occupancy"</span>)<span class="sc">+</span><span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Description of the Plot:</p>
+<p>The boxplot visualizes the Weekly Average Percent COVID-19 Inpatient Bed Occupancy for selected states. Here are the key observations:</p>
+<p>1.X-axis: The Weekly Average Percent COVID-19 Inpatient Bed Occupancy.</p>
+<p>2.Y-axis: The Geographic Aggregation, representing different selected states.</p>
+<p>This boxplot provides a clear visual comparison of the weekly average percent COVID-19 inpatient bed occupancy across different states. It highlights the differences in central tendency (median), spread (IQR), and overall range (whiskers) of bed occupancy percentages, indicating how various states managed their inpatient bed capacities during the reporting period.</p>
+<p>States with High Occupancy Rates: States like State9 have higher median occupancy rates, suggesting higher utilization of inpatient beds for COVID-19 patients. States with Lower Occupancy Rates: States like State1 have lower median occupancy rates, indicating relatively less strain on their inpatient bed capacity.</p>
 </section>
 <section id="create-boxplot-for-percent-hospitals-reporting-inpatient-beds-occupied" class="level1">
 <h1>Create boxplot for Percent Hospitals Reporting Inpatient Beds Occupied:</h1>
@@ -1425,6 +1460,13 @@ https://debruine.github.io/faux/
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Description of the Plot:</p>
+<p>The boxplot visualizes the Percent Hospitals Reporting Inpatient Beds Occupied by state. Here are the key observations:</p>
+<p>1.X-axis: The Percent Hospitals Reporting Inpatient Beds Occupied.</p>
+<p>2.Y-axis: The Geographic Aggregation, representing different selected states.</p>
+<p>This boxplot provides a clear visual comparison of the percentage of hospitals reporting inpatient beds occupied across different states. It highlights the differences in central tendency (median), spread (IQR), and overall range (whiskers) of reporting percentages, indicating how various states managed their inpatient bed reporting during the reporting period.</p>
+<p>States with High Reporting Percentages: States like State10 have higher median reporting percentages, suggesting higher compliance or higher utilization of inpatient beds.</p>
+<p>States with Lower Reporting Percentages: States like State1 have lower median reporting percentages, indicating relatively less strain on their inpatient bed capacity or lower compliance in reporting.</p>
 </section>
 <section id="create-boxplot-for-weekly-average-inpatient-beds-occupied" class="level1">
 <h1>Create boxplot for Weekly Average Inpatient Beds Occupied:</h1>
@@ -1437,6 +1479,13 @@ https://debruine.github.io/faux/
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Description of the Plot:</p>
+<p>The boxplot visualizes the Weekly Average Inpatient Beds Occupied by state. Here are the key observations:</p>
+<p>1.X-axis: The Weekly Average Inpatient Beds Occupied.</p>
+<p>2.Y-axis: The Geographic Aggregation, representing different selected states.</p>
+<p>This boxplot provides a clear visual comparison of the weekly average inpatient beds occupied across different states. It highlights the differences in central tendency (median), spread (IQR), overall range (whiskers), and the presence of outliers, indicating how various states managed their inpatient bed capacities during the reporting period.</p>
+<p>States with High Occupancy Rates: States like State9 have higher median occupancy rates, suggesting higher utilization of inpatient beds.</p>
+<p>States with Lower Occupancy Rates: States like State1 have lower median occupancy rates, indicating relatively less strain on their inpatient bed capacity.</p>
 </section>
 <section id="create-boxplot-for-weekly-average-icu-beds-occupied" class="level1">
 <h1>Create boxplot for Weekly Average ICU Beds Occupied:</h1>
@@ -1449,16 +1498,28 @@ https://debruine.github.io/faux/
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Explanation and Comparison:</p>
+<p>Description of the Plot:</p>
+<p>The boxplot visualizes the Weekly Average ICU Beds Occupied by state. Here are the key observations:</p>
+<p>1.X-axis: The Weekly Average ICU Beds Occupied.</p>
+<p>2.Y-axis: The Geographic Aggregation, representing different selected states.</p>
+<p>This boxplot provides a clear visual comparison of the weekly average ICU beds occupied across different states. It highlights the differences in central tendency (median), spread (IQR), overall range (whiskers), and the presence of outliers, indicating how various states managed their ICU bed capacities during the reporting period.</p>
+<p>States with High ICU Bed Occupancy Rates: States like State6 have higher median occupancy rates, suggesting higher utilization of ICU beds.</p>
+<p>States with Lower ICU Bed Occupancy Rates: States like State10 have lower median occupancy rates, indicating relatively less strain on their ICU bed capacity.</p>
+<section id="explanation-and-comparison" class="level2">
+<h2 class="anchored" data-anchor-id="explanation-and-comparison">Explanation and Comparison:</h2>
 <p>Generating Synthetic Data:</p>
 <p>The synthetic data is generated with the same structure and similar statistical properties as the original data. This includes date ranges, geographic aggregation categories, and numeric ranges for key metrics.</p>
 <p>The faux package is used to create the synthetic data with the required number of observations and similar distribution characteristics.</p>
-<p>Exploratory Data Analysis:</p>
+</section>
+<section id="similarities" class="level2">
+<h2 class="anchored" data-anchor-id="similarities">Similarities:</h2>
 <p>The EDA on synthetic data involves summarizing key variables and plotting distributions and boxplots to understand central tendencies and variability.</p>
+<p>The synthetic data plot closely mirrors the distribution characteristics of the original data plot, particularly in terms of the right-skewed distribution and concentration of lower values for Weekly Average COVID-19 Admissions .</p>
 <p>The histograms show the distribution of weekly averages for COVID-19 admissions, inpatient beds occupied, and ICU beds occupied. They exhibit similar patterns to the original data, with right-skewed distributions.</p>
 <p>The boxplots provide insights into variability across different states, with central tendencies and outliers indicating similarities and differences in hospital metrics.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

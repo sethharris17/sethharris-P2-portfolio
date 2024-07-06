@@ -1,7 +1,7 @@
 ---
 title: "CDC Data Exploration on Weekly United States Hospitalization Metrics by Jurisdiction"
 author: "Seth Harris"
-date: "2024-07-02"
+date: "2024-07-05"
 format: html
 editor: visual
 ---
@@ -224,9 +224,10 @@ synthetic_data <- data.frame(
   `Weekly Average Percent COVID-19 Inpatient Bed Occupancy` = round(runif(n, min = 0, max = 100), 2),
   `Weekly Average COVID-19 Admissions` = round(rnorm(n, mean = 1000, sd = 500)),
   `Percent Hospitals Reporting Inpatient Beds Occupied` = round(runif(n, min = 0, max = 100), 2),
-  `Weekly Average Inpatient Beds Occupied` = round(rnorm(n, mean = 2000, sd = 800)),
+  `Weekly Average Inpatient Beds Occupied` = round(rexp(n, rate = 0.001)),  # Right-skewed distribution
   `Weekly Average ICU Beds Occupied` = round(rnorm(n, mean = 500, sd = 200))
 )
+
 ```
 
 # Inspect the synthetic data:
@@ -251,13 +252,41 @@ ggplot(synthetic_data, aes(x = `Weekly.Average.COVID.19.Admissions`)) +
   labs(title = "Distribution of Weekly Average COVID-19 Admissions", x = "Weekly Average COVID-19 Admissions", y = "Frequency")+xlim(0, 50000)
 ```
 
+Description of the Plot:
+
+The histogram shown in the plot visualizes the distribution of Weekly Average COVID-19 Admissions from the synthetic dataset. Here are the key observations:
+
+X-axis: The Weekly Average COVID-19 Admissions, ranging from 0 to 50,000.
+
+Y-axis: The Frequency, indicating the number of jurisdictions reporting particular ranges of weekly average COVID-19 admissions.
+
+The distribution is highly right-skewed, with most jurisdictions reporting relatively low weekly average COVID-19 admissions.
+
+There is a significant concentration of data points on the lower end of the spectrum, with the majority of the frequencies clustered around the lower values.
+
+The long tail to the right indicates the presence of outliers, jurisdictions with exceptionally high weekly average COVID-19 admissions. 
+Interpretation.
+
+The histogram effectively illustrates the disparity in COVID-19 impact across different jurisdictions, showing that while most areas experienced lower average admissions, a few regions faced extremely high admissions, pointing to potential hotspots or areas with larger outbreaks during the reporting period. This pattern can inform public health officials and policymakers about resource allocation and preparedness strategies.
+
 # Plot the distribution of Weekly Average Inpatient Beds Occupied:
 
 ```{r}
 ggplot(synthetic_data, aes(x = `Weekly.Average.Percent.COVID.19.Inpatient.Bed.Occupancy`)) +
   geom_histogram(fill = "blue", color = "red") +
-  labs(title = "Distribution of Weekly Average Inpatient Beds Occupied", x = "Weekly Average Inpatient Beds Occupied", y = "Frequency")+xlim(0, 150)
+  labs(title = "Distribution of Weekly Average Inpatient Beds Occupied", x = "Weekly Average Inpatient Beds Occupied", y = "Frequency")+xlim(0, 200)
 ```
+Description of the Plot:
+
+The histogram shown in the plot visualizes the distribution of Weekly Average Inpatient Beds Occupied from the synthetic dataset. Here are the key observations:
+
+1.X-axis: The Weekly Average Inpatient Beds Occupied, ranging from 0 to 200.
+
+2.Y-axis: The Frequency, indicating the number of jurisdictions reporting particular ranges of weekly average inpatient beds occupied.
+
+This histogram of the synthetic data for Weekly Average Inpatient Beds Occupied provides insights into how inpatient bed occupancy is distributed across different jurisdictions. The relatively even distribution and multiple peaks could indicate varying levels of hospital bed occupancy across regions, possibly influenced by different factors such as the population size, healthcare capacity, and severity of outbreaks.The histogram should show a high concentration of lower values with a long tail extending to the right, indicating a few very high values.
+
+This distribution highlights that while some jurisdictions have lower inpatient bed occupancy, others experience higher levels, showcasing the diversity in hospital resource utilization.
 
 # Plot the distribution of Weekly Average ICU Beds Occupied:
 
@@ -266,6 +295,19 @@ ggplot(synthetic_data, aes(x = `Weekly.Average.ICU.Beds.Occupied`)) +
   geom_histogram(binwidth = 50, fill = "lightblue", color = "lightblue") +
   labs(title = "Distribution of Weekly Average ICU Beds Occupied", x = "Weekly Average ICU Beds Occupied", y = "Frequency")+xlim(0, 20000)
 ```
+Description of the Plot:
+
+The histogram shown in the plot visualizes the distribution of Weekly Average ICU Beds Occupied from the synthetic dataset.
+
+1.X-axis: The Weekly Average ICU Beds Occupied.
+
+2.Y-axis: The Frequency, indicating the number of jurisdictions reporting particular ranges of weekly average ICU beds occupied.
+
+This histogram exhibits a clear right skew. The majority of the data points are concentrated at the lower end of the range (close to 0), with a long tail extending to the right.
+
+This indicates that the majority of jurisdictions have low to moderate weekly average ICU bed occupancy, but a few jurisdictions experience much higher occupancy levels. This pattern suggests that while most areas manage with fewer occupied ICU beds, certain regions face significant demand, potentially due to higher population densities or more severe outbreaks.
+
+
 
 # Summary of categorical variable 'Geographic aggregation':
 
@@ -306,6 +348,20 @@ ggplot(filtered_data, aes(x = reorder(`Geographic.aggregation`, -`Weekly.Average
   coord_flip() +
   labs(title = "Weekly Average COVID-19 Admissions for Selected States", x = "Geographic Aggregation", y = "Weekly Average COVID-19 Admissions")+ylim(0, 100000)
 ```
+Description of the Plot:
+
+The bar plot visualizes the Weekly Average COVID-19 Admissions for selected states. Here are the key observations:
+
+1. X-axis: The Weekly Average COVID-19 Admissions.
+
+2.Y-axis: The Geographic Aggregation, representing different selected states.
+
+This bar plot provides a clear visual comparison of the weekly average COVID-19 admissions across different states. It highlights the states with the highest and lowest average admissions, which can be useful for identifying areas with greater healthcare needs and resource allocation.
+
+State10: The high average admissions suggest that this state experienced a particularly severe impact from COVID-19, necessitating more healthcare resources and support.
+
+State1: The lower admissions indicate relatively less strain on the healthcare system in this state compared to others.
+
 
 # Create boxplot for Weekly Average Percent COVID-19 Inpatient Bed Occupancy:
 
@@ -313,8 +369,22 @@ ggplot(filtered_data, aes(x = reorder(`Geographic.aggregation`, -`Weekly.Average
 ggplot(filtered_data, aes(x = `Geographic.aggregation`, y = `Weekly.Average.Percent.COVID.19.Inpatient.Bed.Occupancy`)) +
   geom_boxplot(fill = "lightblue", color = "darkblue") +
   coord_flip() +
-  labs(title = "Boxplot of Weekly Average Percent COVID-19 Inpatient Bed Occupancy by State", x = "Geographic Aggregation", y = "Weekly Average Percent COVID-19 Inpatient Bed Occupancy")+ylim(0, 1000)
+  labs(title = "Boxplot of Weekly Average Percent COVID-19 Inpatient Bed Occupancy by State", x = "Geographic Aggregation", y = "Weekly Average Percent COVID-19 Inpatient Bed Occupancy")+ylim(0, 100)
 ```
+Description of the Plot:
+
+The boxplot visualizes the Weekly Average Percent COVID-19 Inpatient Bed Occupancy for selected states. Here are the key observations:
+
+1.X-axis: The Weekly Average Percent COVID-19 Inpatient Bed Occupancy.
+
+2.Y-axis: The Geographic Aggregation, representing different selected states.
+
+This boxplot provides a clear visual comparison of the weekly average percent COVID-19 inpatient bed occupancy across different states. It highlights the differences in central tendency (median), spread (IQR), and overall range (whiskers) of bed occupancy percentages, indicating how various states managed their inpatient bed capacities during the reporting period.
+
+States with High Occupancy Rates: States like State9 have higher median occupancy rates, suggesting higher utilization of inpatient beds for COVID-19 patients.
+States with Lower Occupancy Rates: States like State1 have lower median occupancy rates, indicating relatively less strain on their inpatient bed capacity.
+
+
 
 # Create boxplot for Percent Hospitals Reporting Inpatient Beds Occupied:
 
@@ -324,6 +394,20 @@ ggplot(filtered_data, aes(x = `Geographic.aggregation`, y = `Percent.Hospitals.R
   coord_flip() +
   labs(title = "Boxplot of Percent Hospitals Reporting Inpatient Beds Occupied by State", x = "Geographic Aggregation", y = "Percent Hospitals Reporting Inpatient Beds Occupied")
 ```
+Description of the Plot:
+
+The boxplot visualizes the Percent Hospitals Reporting Inpatient Beds Occupied by state. Here are the key observations:
+
+1.X-axis: The Percent Hospitals Reporting Inpatient Beds Occupied.
+
+2.Y-axis: The Geographic Aggregation, representing different selected states.
+
+This boxplot provides a clear visual comparison of the percentage of hospitals reporting inpatient beds occupied across different states. It highlights the differences in central tendency (median), spread (IQR), and overall range (whiskers) of reporting percentages, indicating how various states managed their inpatient bed reporting during the reporting period.
+
+States with High Reporting Percentages: States like State10 have higher median reporting percentages, suggesting higher compliance or higher utilization of inpatient beds.
+
+States with Lower Reporting Percentages: States like State1 have lower median reporting percentages, indicating relatively less strain on their inpatient bed capacity or lower compliance in reporting.
+
 
 # Create boxplot for Weekly Average Inpatient Beds Occupied:
 
@@ -333,6 +417,20 @@ ggplot(filtered_data, aes(x = `Geographic.aggregation`, y = `Weekly.Average.Inpa
   coord_flip() +
   labs(title = "Boxplot of Weekly Average Inpatient Beds Occupied by State", x = "Geographic Aggregation", y = "Weekly Average Inpatient Beds Occupied")
 ```
+Description of the Plot:
+
+The boxplot visualizes the Weekly Average Inpatient Beds Occupied by state. Here are the key observations:
+
+1.X-axis: The Weekly Average Inpatient Beds Occupied.
+
+2.Y-axis: The Geographic Aggregation, representing different selected states.
+
+This boxplot provides a clear visual comparison of the weekly average inpatient beds occupied across different states. It highlights the differences in central tendency (median), spread (IQR), overall range (whiskers), and the presence of outliers, indicating how various states managed their inpatient bed capacities during the reporting period.
+
+States with High Occupancy Rates: States like State9 have higher median occupancy rates, suggesting higher utilization of inpatient beds.
+
+States with Lower Occupancy Rates: States like State1 have lower median occupancy rates, indicating relatively less strain on their inpatient bed capacity.
+
 
 # Create boxplot for Weekly Average ICU Beds Occupied:
 
@@ -343,8 +441,21 @@ ggplot(filtered_data, aes(x = `Geographic.aggregation`, y = `Weekly.Average.ICU.
   labs(title = "Boxplot of Weekly Average ICU Beds Occupied by State", x = "Geographic Aggregation", y = "Weekly Average ICU Beds Occupied")
 
 ```
+Description of the Plot:
 
-Explanation and Comparison:
+The boxplot visualizes the Weekly Average ICU Beds Occupied by state. Here are the key observations:
+
+1.X-axis: The Weekly Average ICU Beds Occupied.
+
+2.Y-axis: The Geographic Aggregation, representing different selected states.
+
+This boxplot provides a clear visual comparison of the weekly average ICU beds occupied across different states. It highlights the differences in central tendency (median), spread (IQR), overall range (whiskers), and the presence of outliers, indicating how various states managed their ICU bed capacities during the reporting period.
+
+States with High ICU Bed Occupancy Rates: States like State6 have higher median occupancy rates, suggesting higher utilization of ICU beds.
+
+States with Lower ICU Bed Occupancy Rates: States like State10 have lower median occupancy rates, indicating relatively less strain on their ICU bed capacity.
+
+## Explanation and Comparison:
 
 Generating Synthetic Data:
 
@@ -352,12 +463,16 @@ The synthetic data is generated with the same structure and similar statistical 
 
 The faux package is used to create the synthetic data with the required number of observations and similar distribution characteristics.
 
-Exploratory Data Analysis:
+## Similarities:
 
 The EDA on synthetic data involves summarizing key variables and plotting distributions and boxplots to understand central tendencies and variability.
+
+The synthetic data plot closely mirrors the distribution characteristics of the original data plot, particularly in terms of the right-skewed distribution and concentration of lower values for Weekly Average COVID-19 Admissions .
 
 The histograms show the distribution of weekly averages for COVID-19 admissions, inpatient beds occupied, and ICU beds occupied. They exhibit similar patterns to the original data, with right-skewed distributions.
 
 The boxplots provide insights into variability across different states, with central tendencies and outliers indicating similarities and differences in hospital metrics.
+
+
 
 
