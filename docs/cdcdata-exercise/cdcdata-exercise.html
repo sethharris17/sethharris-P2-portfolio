@@ -946,7 +946,8 @@ date  (1): Week Ending Date
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">500</span>, <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Weekly Average COVID-19 Admissions"</span>, <span class="at">x =</span> <span class="st">"Weekly Average COVID-19 Admissions"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 185 rows containing non-finite values (`stat_bin()`).</code></pre>
+<pre><code>Warning: Removed 185 rows containing non-finite outside the scale range
+(`stat_bin()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
@@ -960,7 +961,8 @@ date  (1): Week Ending Date
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">500</span>, <span class="at">fill =</span> <span class="st">"black"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Weekly Average Inpatient Beds Occupied"</span>, <span class="at">x =</span> <span class="st">"Weekly Average Inpatient Beds Occupied"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 183 rows containing non-finite values (`stat_bin()`).</code></pre>
+<pre><code>Warning: Removed 183 rows containing non-finite outside the scale range
+(`stat_bin()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
@@ -974,7 +976,8 @@ date  (1): Week Ending Date
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">500</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span></span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Weekly Average ICU Beds Occupied"</span>, <span class="at">x =</span> <span class="st">"Weekly Average ICU Beds Occupied"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 201 rows containing non-finite values (`stat_bin()`).</code></pre>
+<pre><code>Warning: Removed 201 rows containing non-finite outside the scale range
+(`stat_bin()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
@@ -1032,7 +1035,8 @@ date  (1): Week Ending Date
 <span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Weekly Average COVID-19 Admissions for Selected States"</span>, <span class="at">x =</span> <span class="st">"Geographic Aggregation"</span>, <span class="at">y =</span> <span class="st">"Weekly Average COVID-19 Admissions"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 185 rows containing missing values (`position_stack()`).</code></pre>
+<pre><code>Warning: Removed 185 rows containing missing values or values outside the scale range
+(`geom_bar()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
@@ -1047,7 +1051,8 @@ date  (1): Week Ending Date
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot of Weekly Average Percent COVID-19 Inpatient Bed Occupancy by State"</span>, <span class="at">x =</span> <span class="st">"Geographic Aggregation"</span>, <span class="at">y =</span> <span class="st">"Weekly Average Percent COVID-19 Inpatient Bed Occupancy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 183 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 183 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
@@ -1074,7 +1079,8 @@ date  (1): Week Ending Date
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot of Weekly Average Inpatient Beds Occupied by State"</span>, <span class="at">x =</span> <span class="st">"Geographic Aggregation"</span>, <span class="at">y =</span> <span class="st">"Weekly Average Inpatient Beds Occupied"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 183 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 183 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
@@ -1089,7 +1095,8 @@ date  (1): Week Ending Date
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot of Weekly Average ICU Beds Occupied by State"</span>, <span class="at">x =</span> <span class="st">"Geographic Aggregation"</span>, <span class="at">y =</span> <span class="st">"Weekly Average ICU Beds Occupied"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 201 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 201 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
@@ -1297,10 +1304,12 @@ https://debruine.github.io/faux/
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">100</span>, <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Weekly Average COVID-19 Admissions"</span>, <span class="at">x =</span> <span class="st">"Weekly Average COVID-19 Admissions"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)<span class="sc">+</span><span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">50000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 7 rows containing non-finite values (`stat_bin()`).</code></pre>
+<pre><code>Warning: Removed 7 rows containing non-finite outside the scale range
+(`stat_bin()`).</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 rows containing missing values (`geom_bar()`).</code></pre>
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_bar()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
@@ -1325,7 +1334,8 @@ https://debruine.github.io/faux/
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 rows containing missing values (`geom_bar()`).</code></pre>
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_bar()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
@@ -1345,10 +1355,12 @@ https://debruine.github.io/faux/
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">50</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span></span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Weekly Average ICU Beds Occupied"</span>, <span class="at">x =</span> <span class="st">"Weekly Average ICU Beds Occupied"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)<span class="sc">+</span><span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">20000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 5 rows containing non-finite values (`stat_bin()`).</code></pre>
+<pre><code>Warning: Removed 5 rows containing non-finite outside the scale range
+(`stat_bin()`).</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 rows containing missing values (`geom_bar()`).</code></pre>
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_bar()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
@@ -1415,7 +1427,8 @@ https://debruine.github.io/faux/
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Weekly Average COVID-19 Admissions for Selected States"</span>, <span class="at">x =</span> <span class="st">"Geographic Aggregation"</span>, <span class="at">y =</span> <span class="st">"Weekly Average COVID-19 Admissions"</span>)<span class="sc">+</span><span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">100000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 7 rows containing missing values (`position_stack()`).</code></pre>
+<pre><code>Warning: Removed 7 rows containing missing values or values outside the scale range
+(`geom_bar()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="cdcdata-exercise_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
