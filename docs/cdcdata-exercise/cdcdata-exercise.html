@@ -245,7 +245,7 @@ Attaching package: 'lubridate'</code></pre>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the dataset</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>cdcdata <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://data.cdc.gov/api/views/aemt-mg7g/rows.csv?accessType=DOWNLOAD"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Rows: 11628 Columns: 64
+<pre><code>Rows: 11799 Columns: 64
 ── Column specification ────────────────────────────────────────────────────────
 Delimiter: ","
 chr   (1): Geographic aggregation
@@ -263,12 +263,12 @@ date  (1): Week Ending Date
 <pre><code># A tibble: 6 × 64
   `Week Ending Date` `Geographic aggregation` `Hospital Reporting Days`
   &lt;date&gt;             &lt;chr&gt;                                        &lt;dbl&gt;
-1 2020-08-08         AL                                             629
-2 2020-08-15         AL                                             637
-3 2020-08-22         AL                                             632
-4 2020-08-29         AL                                             636
-5 2020-09-05         AL                                             640
-6 2020-09-12         AL                                             637
+1 2020-08-08         AR                                             458
+2 2020-08-15         AR                                             460
+3 2020-08-22         AR                                             461
+4 2020-08-29         AR                                             466
+5 2020-09-05         AR                                             500
+6 2020-09-12         AR                                             503
 # ℹ 61 more variables: `Percent Hospital Reporting Days` &lt;dbl&gt;,
 #   `Number Hospitals Reporting Adult COVID-19 Admissions` &lt;dbl&gt;,
 #   `Number Hospitals Reporting Pediatric COVID-19 Admissions` &lt;dbl&gt;,
@@ -350,277 +350,277 @@ date  (1): Week Ending Date
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cdcdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Week Ending Date     Geographic aggregation Hospital Reporting Days
- Min.   :2020-08-08   Length:11628           Min.   :    0.0        
- 1st Qu.:2021-07-29   Class :character       1st Qu.:  224.0        
- Median :2022-07-19   Mode  :character       Median :  497.0        
- Mean   :2022-07-19                          Mean   : 1151.6        
- 3rd Qu.:2023-07-09                          3rd Qu.:  829.2        
- Max.   :2024-06-29                          Max.   :34044.0        
+ Min.   :2020-08-08   Length:11799           Min.   :    0          
+ 1st Qu.:2021-07-31   Class :character       1st Qu.:  217          
+ Median :2022-07-30   Mode  :character       Median :  497          
+ Mean   :2022-07-30                          Mean   : 1140          
+ 3rd Qu.:2023-07-29                          3rd Qu.:  805          
+ Max.   :2024-07-20                          Max.   :34044          
                                                                     
  Percent Hospital Reporting Days
  Min.   :0.0000                 
  1st Qu.:0.9600                 
  Median :0.9800                 
- Mean   :0.9372                 
+ Mean   :0.9286                 
  3rd Qu.:1.0000                 
  Max.   :1.0000                 
                                 
  Number Hospitals Reporting Adult COVID-19 Admissions
  Min.   :   0.0                                      
- 1st Qu.:  33.0                                      
- Median :  72.0                                      
- Mean   : 165.9                                      
- 3rd Qu.: 121.0                                      
- Max.   :4887.0                                      
+ 1st Qu.:  31.0                                      
+ Median :  71.0                                      
+ Mean   : 164.4                                      
+ 3rd Qu.: 116.5                                      
+ Max.   :4886.0                                      
                                                      
  Number Hospitals Reporting Pediatric COVID-19 Admissions
- Min.   :   0                                            
- 1st Qu.:  32                                            
- Median :  71                                            
- Mean   : 165                                            
- 3rd Qu.: 116                                            
- Max.   :4887                                            
+ Min.   :   0.0                                          
+ 1st Qu.:  31.0                                          
+ Median :  71.0                                          
+ Mean   : 163.4                                          
+ 3rd Qu.: 115.0                                          
+ Max.   :4886.0                                          
                                                          
  Number Hospitals Reporting Influenza Admissions
  Min.   :   0.0                                 
- 1st Qu.:  26.0                                 
- Median :  62.0                                 
- Mean   : 152.3                                 
+ 1st Qu.:  25.0                                 
+ Median :  59.0                                 
+ Mean   : 150.9                                 
  3rd Qu.: 114.0                                 
- Max.   :4887.0                                 
+ Max.   :4886.0                                 
                                                 
  Number Hospitals Reporting Prevalent Influenza Hospitalizations
- Min.   :   0.0                                                 
- 1st Qu.:  26.0                                                 
- Median :  62.0                                                 
- Mean   : 152.3                                                 
- 3rd Qu.: 114.0                                                 
- Max.   :4887.0                                                 
+ Min.   :   0                                                   
+ 1st Qu.:  25                                                   
+ Median :  59                                                   
+ Mean   : 151                                                   
+ 3rd Qu.: 114                                                   
+ Max.   :4886                                                   
                                                                 
  Number Hospitals Reporting Hospitalized Influenza ICU Patients
  Min.   :   0.0                                                
- 1st Qu.:  26.0                                                
- Median :  62.0                                                
- Mean   : 152.3                                                
+ 1st Qu.:  25.0                                                
+ Median :  59.0                                                
+ Mean   : 150.9                                                
  3rd Qu.: 114.0                                                
- Max.   :4887.0                                                
+ Max.   :4886.0                                                
                                                                
  Number Hospitals Reporting Inpatient Beds Number Hospitals Reporting ICU Beds
  Min.   :   0.0                            Min.   :   0.0                     
- 1st Qu.:  33.0                            1st Qu.:  33.0                     
- Median :  71.0                            Median :  72.0                     
- Mean   : 165.3                            Mean   : 165.7                     
- 3rd Qu.: 121.0                            3rd Qu.: 121.0                     
- Max.   :4883.0                            Max.   :4887.0                     
+ 1st Qu.:  31.0                            1st Qu.:  31.0                     
+ Median :  71.0                            Median :  71.0                     
+ Mean   : 163.7                            Mean   : 164.1                     
+ 3rd Qu.: 116.0                            3rd Qu.: 116.0                     
+ Max.   :4882.0                            Max.   :4886.0                     
                                                                               
  Number Hospitals Reporting Inpatient Beds Occupied
  Min.   :   0.0                                    
- 1st Qu.:  33.0                                    
+ 1st Qu.:  31.0                                    
  Median :  71.0                                    
- Mean   : 165.3                                    
- 3rd Qu.: 121.0                                    
- Max.   :4883.0                                    
+ Mean   : 163.7                                    
+ 3rd Qu.: 116.0                                    
+ Max.   :4882.0                                    
                                                    
  Number Hospitals Reporting ICU Beds Occupied
  Min.   :   0.0                              
- 1st Qu.:  32.0                              
+ 1st Qu.:  31.0                              
  Median :  71.0                              
- Mean   : 164.3                              
- 3rd Qu.: 116.0                              
- Max.   :4879.0                              
+ Mean   : 162.8                              
+ 3rd Qu.: 115.0                              
+ Max.   :4878.0                              
                                              
  Number Hospitals Reporting Percent Inpatient Bed Occupancy
  Min.   :   0.0                                            
- 1st Qu.:  33.0                                            
+ 1st Qu.:  31.0                                            
  Median :  71.0                                            
- Mean   : 165.3                                            
- 3rd Qu.: 121.0                                            
- Max.   :4883.0                                            
+ Mean   : 163.7                                            
+ 3rd Qu.: 116.0                                            
+ Max.   :4882.0                                            
                                                            
  Number Hospitals Reporting Percent ICU Bed Occupancy
  Min.   :   0.0                                      
- 1st Qu.:  32.0                                      
+ 1st Qu.:  31.0                                      
  Median :  71.0                                      
- Mean   : 164.3                                      
- 3rd Qu.: 116.0                                      
- Max.   :4879.0                                      
+ Mean   : 162.8                                      
+ 3rd Qu.: 115.0                                      
+ Max.   :4878.0                                      
                                                      
  Number Hospitals Reporting Percent COVID-19 Inpatient Bed Occupancy
- Min.   :   0.00                                                    
- 1st Qu.:  32.75                                                    
- Median :  71.00                                                    
- Mean   : 164.89                                                    
- 3rd Qu.: 121.00                                                    
- Max.   :4883.00                                                    
+ Min.   :   0.0                                                     
+ 1st Qu.:  31.0                                                     
+ Median :  71.0                                                     
+ Mean   : 163.3                                                     
+ 3rd Qu.: 115.0                                                     
+ Max.   :4882.0                                                     
                                                                     
  Number Hospitals Reporting Percent Influenza Inpatient Bed Occupancy
  Min.   :   0.0                                                      
- 1st Qu.:  26.0                                                      
- Median :  61.0                                                      
- Mean   : 151.9                                                      
- 3rd Qu.: 114.0                                                      
- Max.   :4883.0                                                      
+ 1st Qu.:  25.0                                                      
+ Median :  59.0                                                      
+ Mean   : 150.6                                                      
+ 3rd Qu.: 113.0                                                      
+ Max.   :4882.0                                                      
                                                                      
  Number Hospitals Reporting Percent COVID-19 ICU Bed Occupancy
  Min.   :   0.0                                               
- 1st Qu.:  32.0                                               
+ 1st Qu.:  31.0                                               
  Median :  71.0                                               
- Mean   : 165.3                                               
- 3rd Qu.: 120.0                                               
- Max.   :4887.0                                               
+ Mean   : 163.8                                               
+ 3rd Qu.: 115.0                                               
+ Max.   :4886.0                                               
                                                               
  Number Hospitals Reporting Percent Influenza ICU Bed Occupancy
  Min.   :   0.0                                                
- 1st Qu.:  26.0                                                
- Median :  61.0                                                
- Mean   : 152.2                                                
+ 1st Qu.:  25.0                                                
+ Median :  59.0                                                
+ Mean   : 150.9                                                
  3rd Qu.: 114.0                                                
- Max.   :4887.0                                                
+ Max.   :4886.0                                                
                                                                
  Number Hospitals Reporting Total COVID-19 Admissions
- Min.   :   0                                        
- 1st Qu.:  33                                        
- Median :  72                                        
- Mean   : 166                                        
- 3rd Qu.: 121                                        
- Max.   :4887                                        
+ Min.   :   0.0                                      
+ 1st Qu.:  31.0                                      
+ Median :  71.0                                      
+ Mean   : 164.4                                      
+ 3rd Qu.: 116.5                                      
+ Max.   :4886.0                                      
                                                      
  Number Hospitals Reporting Prevalent COVID-19 Hospitalizations
- Min.   :   0.00                                               
- 1st Qu.:  32.75                                               
- Median :  72.00                                               
- Mean   : 165.61                                               
- 3rd Qu.: 121.00                                               
- Max.   :4887.00                                               
+ Min.   :   0                                                  
+ 1st Qu.:  31                                                  
+ Median :  71                                                  
+ Mean   : 164                                                  
+ 3rd Qu.: 116                                                  
+ Max.   :4886                                                  
                                                                
  Number Hospitals Reporting Hospitalized COVID-19 ICU Patients
  Min.   :   0.0                                               
- 1st Qu.:  32.0                                               
+ 1st Qu.:  31.0                                               
  Median :  71.0                                               
- Mean   : 165.0                                               
- 3rd Qu.: 118.2                                               
- Max.   :4887.0                                               
+ Mean   : 163.4                                               
+ 3rd Qu.: 115.0                                               
+ Max.   :4886.0                                               
                                                               
  Weekly Average Adult COVID-19 Admissions
  Min.   :    0.0                         
  1st Qu.:   10.0                         
  Median :   32.0                         
- Mean   :  164.8                         
- 3rd Qu.:   93.0                         
+ Mean   :  162.9                         
+ 3rd Qu.:   92.0                         
  Max.   :20287.0                         
- NA's   :183                             
+ NA's   :196                             
  Weekly Total Adult COVID-19 Admissions
  Min.   :     0                        
- 1st Qu.:    72                        
- Median :   227                        
- Mean   :  1153                        
- 3rd Qu.:   652                        
+ 1st Qu.:    70                        
+ Median :   223                        
+ Mean   :  1140                        
+ 3rd Qu.:   643                        
  Max.   :142007                        
- NA's   :183                           
+ NA's   :196                           
  Weekly Average Pediatric COVID-19 Admissions
  Min.   :  0.000                             
  1st Qu.:  0.000                             
  Median :  1.000                             
- Mean   :  5.625                             
+ Mean   :  5.567                             
  3rd Qu.:  3.000                             
  Max.   :907.000                             
- NA's   :192                                 
+ NA's   :205                                 
  Weekly Total Pediatric COVID-19 Admissions Weekly Average COVID-19 Admissions
  Min.   :   0.00                            Min.   :    0.0                   
  1st Qu.:   2.00                            1st Qu.:   11.0                   
- Median :   9.00                            Median :   34.0                   
- Mean   :  39.58                            Mean   :  170.4                   
- 3rd Qu.:  23.00                            3rd Qu.:   96.0                   
+ Median :   8.00                            Median :   33.0                   
+ Mean   :  39.17                            Mean   :  168.5                   
+ 3rd Qu.:  23.00                            3rd Qu.:   95.0                   
  Max.   :6351.00                            Max.   :21194.0                   
- NA's   :192                                NA's   :183                       
+ NA's   :205                                NA's   :196                       
  Weekly Total COVID-19 Admissions Weekly Average Influenza Admissions
  Min.   :     0                   Min.   :   0.00                    
- 1st Qu.:    77                   1st Qu.:   0.00                    
- Median :   238                   Median :   1.00                    
- Mean   :  1193                   Mean   :  14.37                    
- 3rd Qu.:   674                   3rd Qu.:   5.00                    
+ 1st Qu.:    75                   1st Qu.:   0.00                    
+ Median :   233                   Median :   1.00                    
+ Mean   :  1179                   Mean   :  14.19                    
+ 3rd Qu.:   666                   3rd Qu.:   5.00                    
  Max.   :148358                   Max.   :3697.00                    
- NA's   :183                      NA's   :698                        
+ NA's   :196                      NA's   :711                        
  Weekly Total Influenza Admissions
- Min.   :    0.0                  
- 1st Qu.:    1.0                  
- Median :    9.0                  
- Mean   :  100.7                  
- 3rd Qu.:   36.0                  
- Max.   :25882.0                  
- NA's   :698                      
+ Min.   :    0.00                 
+ 1st Qu.:    1.00                 
+ Median :    9.00                 
+ Mean   :   99.45                 
+ 3rd Qu.:   36.00                 
+ Max.   :25882.00                 
+ NA's   :711                      
  Weekly Average Prevalent COVID-19 Hospitalizations
- Min.   :     0                                    
- 1st Qu.:    67                                    
- Median :   220                                    
- Mean   :  1197                                    
- 3rd Qu.:   651                                    
- Max.   :144095                                    
- NA's   :183                                       
+ Min.   :     0.0                                  
+ 1st Qu.:    64.0                                  
+ Median :   214.0                                  
+ Mean   :  1182.6                                  
+ 3rd Qu.:   639.5                                  
+ Max.   :144095.0                                  
+ NA's   :196                                       
  Weekly Average Prevalent Influenza Hospitalizations
  Min.   :    0.00                                   
  1st Qu.:    1.00                                   
  Median :    7.00                                   
- Mean   :   75.61                                   
+ Mean   :   74.68                                   
  3rd Qu.:   29.00                                   
  Max.   :15926.00                                   
- NA's   :706                                        
+ NA's   :719                                        
  Weekly Average Hospitalized COVID-19 ICU Patients
  Min.   :    0.0                                  
  1st Qu.:    9.0                                  
- Median :   37.0                                  
- Mean   :  246.5                                  
- 3rd Qu.:  130.0                                  
+ Median :   36.0                                  
+ Mean   :  243.3                                  
+ 3rd Qu.:  127.0                                  
  Max.   :26475.0                                  
- NA's   :194                                      
+ NA's   :207                                      
  Weekly Average Hospitalized Influenza ICU Patients
  Min.   :   0.00                                   
  1st Qu.:   0.00                                   
  Median :   1.00                                   
- Mean   :  12.01                                   
+ Mean   :  11.86                                   
  3rd Qu.:   4.00                                   
  Max.   :2334.00                                   
- NA's   :698                                       
+ NA's   :711                                       
  Weekly Average Inpatient Beds Weekly Average ICU Beds
  Min.   :     7                Min.   :     0         
- 1st Qu.:  2690                1st Qu.:   365         
- Median :  7899                Median :  1176         
- Mean   : 23492                Mean   :  3528         
- 3rd Qu.: 16118                3rd Qu.:  2527         
+ 1st Qu.:  2674                1st Qu.:   359         
+ Median :  7849                Median :  1162         
+ Mean   : 23295                Mean   :  3498         
+ 3rd Qu.: 16086                3rd Qu.:  2514         
  Max.   :711091                Max.   :113184         
- NA's   :183                   NA's   :183            
+ NA's   :196                   NA's   :196            
  Weekly Average Inpatient Beds Occupied Weekly Average ICU Beds Occupied
  Min.   :     7                         Min.   :    0                   
- 1st Qu.:  1986                         1st Qu.:  249                   
- Median :  5548                         Median :  808                   
- Mean   : 17502                         Mean   : 2490                   
- 3rd Qu.: 11694                         3rd Qu.: 1637                   
- Max.   :538580                         Max.   :82717                   
- NA's   :183                            NA's   :198                     
+ 1st Qu.:  1972                         1st Qu.:  244                   
+ Median :  5473                         Median :  793                   
+ Mean   : 17354                         Mean   : 2468                   
+ 3rd Qu.: 11664                         3rd Qu.: 1626                   
+ Max.   :538455                         Max.   :82717                   
+ NA's   :196                            NA's   :211                     
  Weekly Average Percent Inpatient Bed Occupancy
- Min.   :0.3100                                
- 1st Qu.:0.6700                                
- Median :0.7300                                
- Mean   :0.7202                                
- 3rd Qu.:0.7900                                
- Max.   :1.0400                                
- NA's   :183                                   
+ Min.   :0.31                                  
+ 1st Qu.:0.67                                  
+ Median :0.73                                  
+ Mean   :0.72                                  
+ 3rd Qu.:0.78                                  
+ Max.   :1.07                                  
+ NA's   :196                                   
  Weekly Average Percent ICU Bed Occupancy
  Min.   :0.0000                          
  1st Qu.:0.6300                          
  Median :0.7000                          
- Mean   :0.6842                          
+ Mean   :0.6838                          
  3rd Qu.:0.7600                          
  Max.   :1.0000                          
- NA's   :207                             
+ NA's   :223                             
  Weekly Average Percent COVID-19 Inpatient Bed Occupancy
  Min.   :0.00000                                        
  1st Qu.:0.01000                                        
  Median :0.03000                                        
- Mean   :0.04431                                        
+ Mean   :0.04387                                        
  3rd Qu.:0.05000                                        
  Max.   :0.35000                                        
- NA's   :183                                            
+ NA's   :196                                            
  Weekly Average Percent Influenza Inpatient Bed Occupancy
  Min.   :0.0000                                          
  1st Qu.:0.0000                                          
@@ -628,15 +628,15 @@ date  (1): Week Ending Date
  Mean   :0.0024                                          
  3rd Qu.:0.0000                                          
  Max.   :0.0700                                          
- NA's   :701                                             
+ NA's   :714                                             
  Weekly Average Percent COVID-19 ICU Bed Occupancy
  Min.   :0.00000                                  
  1st Qu.:0.01000                                  
  Median :0.03000                                  
- Mean   :0.06069                                  
+ Mean   :0.06002                                  
  3rd Qu.:0.07000                                  
  Max.   :0.68000                                  
- NA's   :203                                      
+ NA's   :219                                      
  Weekly Average Percent Influenza ICU Bed Occupancy
  Min.   :0.0000                                    
  1st Qu.:0.0000                                    
@@ -644,7 +644,7 @@ date  (1): Week Ending Date
  Mean   :0.0027                                    
  3rd Qu.:0.0000                                    
  Max.   :0.0900                                    
- NA's   :737                                       
+ NA's   :753                                       
  Percent Adult COVID-19 Admissions Percent Pediatric COVID-19 Admissions
  Min.   :0.0000                    Min.   :0.0000                       
  1st Qu.:0.9500                    1st Qu.:0.0200                       
@@ -652,44 +652,44 @@ date  (1): Week Ending Date
  Mean   :0.9544                    Mean   :0.0456                       
  3rd Qu.:0.9800                    3rd Qu.:0.0500                       
  Max.   :1.0000                    Max.   :1.0000                       
- NA's   :458                       NA's   :458                          
+ NA's   :478                       NA's   :478                          
  Percent Hospitals Reporting Adult COVID-19 Admissions
  Min.   :0.0000                                       
  1st Qu.:0.9700                                       
- Median :0.9900                                       
- Mean   :0.9459                                       
+ Median :0.9800                                       
+ Mean   :0.9373                                       
  3rd Qu.:1.0000                                       
  Max.   :1.0000                                       
                                                       
  Percent Hospitals Reporting Pediatric COVID-19 Admissions
  Min.   :0.0000                                           
- 1st Qu.:0.9700                                           
+ 1st Qu.:0.9600                                           
  Median :0.9800                                           
- Mean   :0.9402                                           
+ Mean   :0.9316                                           
  3rd Qu.:1.0000                                           
  Max.   :1.0000                                           
                                                           
  Percent Hospitals Reporting Influenza Admissions
  Min.   :0.0000                                  
- 1st Qu.:0.9500                                  
+ 1st Qu.:0.9400                                  
  Median :0.9800                                  
- Mean   :0.8729                                  
+ Mean   :0.8654                                  
  3rd Qu.:1.0000                                  
  Max.   :1.0000                                  
                                                  
  Percent Hospitals Reporting Prevalent Influenza Hospitalizations
  Min.   :0.0000                                                  
- 1st Qu.:0.9500                                                  
+ 1st Qu.:0.9400                                                  
  Median :0.9800                                                  
- Mean   :0.8731                                                  
+ Mean   :0.8656                                                  
  3rd Qu.:1.0000                                                  
  Max.   :1.0000                                                  
                                                                  
  Percent Hospitals Reporting Hospitalized Influenza ICU Patients
  Min.   :0.0000                                                 
- 1st Qu.:0.9500                                                 
+ 1st Qu.:0.9400                                                 
  Median :0.9800                                                 
- Mean   :0.8729                                                 
+ Mean   :0.8654                                                 
  3rd Qu.:1.0000                                                 
  Max.   :1.0000                                                 
                                                                 
@@ -697,15 +697,15 @@ date  (1): Week Ending Date
  Min.   :0.0000                            
  1st Qu.:0.9600                            
  Median :0.9800                            
- Mean   :0.9422                            
+ Mean   :0.9336                            
  3rd Qu.:1.0000                            
  Max.   :1.0000                            
                                            
  Percent Hospitals Reporting ICU Beds
  Min.   :0.0000                      
  1st Qu.:0.9700                      
- Median :0.9900                      
- Mean   :0.9449                      
+ Median :0.9800                      
+ Mean   :0.9363                      
  3rd Qu.:1.0000                      
  Max.   :1.0000                      
                                      
@@ -713,7 +713,7 @@ date  (1): Week Ending Date
  Min.   :0.0000                                     
  1st Qu.:0.9600                                     
  Median :0.9800                                     
- Mean   :0.9422                                     
+ Mean   :0.9336                                     
  3rd Qu.:1.0000                                     
  Max.   :1.0000                                     
                                                     
@@ -721,7 +721,7 @@ date  (1): Week Ending Date
  Min.   :0.0000                               
  1st Qu.:0.9600                               
  Median :0.9800                               
- Mean   :0.9354                               
+ Mean   :0.9269                               
  3rd Qu.:1.0000                               
  Max.   :1.0000                               
                                               
@@ -729,7 +729,7 @@ date  (1): Week Ending Date
  Min.   :0.0000                                             
  1st Qu.:0.9600                                             
  Median :0.9800                                             
- Mean   :0.9422                                             
+ Mean   :0.9336                                             
  3rd Qu.:1.0000                                             
  Max.   :1.0000                                             
                                                             
@@ -737,65 +737,65 @@ date  (1): Week Ending Date
  Min.   :0.0000                                       
  1st Qu.:0.9600                                       
  Median :0.9800                                       
- Mean   :0.9354                                       
+ Mean   :0.9268                                       
  3rd Qu.:1.0000                                       
  Max.   :1.0000                                       
                                                       
  Percent Hospitals Reporting Percent COVID-19 Inpatient Bed Occupancy
- Min.   :0.00                                                        
- 1st Qu.:0.96                                                        
- Median :0.98                                                        
- Mean   :0.94                                                        
- 3rd Qu.:1.00                                                        
- Max.   :1.00                                                        
+ Min.   :0.0000                                                      
+ 1st Qu.:0.9600                                                      
+ Median :0.9800                                                      
+ Mean   :0.9315                                                      
+ 3rd Qu.:1.0000                                                      
+ Max.   :1.0000                                                      
                                                                      
  Percent Hospitals Reporting Percent Influenza Inpatient Bed Occupancy
  Min.   :0.0000                                                       
- 1st Qu.:0.9475                                                       
+ 1st Qu.:0.9400                                                       
  Median :0.9800                                                       
- Mean   :0.8712                                                       
+ Mean   :0.8636                                                       
  3rd Qu.:1.0000                                                       
  Max.   :1.0000                                                       
                                                                       
  Percent Hospitals Reporting Percent COVID-19 ICU Bed Occupancy
  Min.   :0.0000                                                
  1st Qu.:0.9700                                                
- Median :0.9900                                                
- Mean   :0.9427                                                
+ Median :0.9800                                                
+ Mean   :0.9341                                                
  3rd Qu.:1.0000                                                
  Max.   :1.0000                                                
                                                                
  Percent Hospitals Reporting Percent Influenza ICU Bed Occupancy
  Min.   :0.0000                                                 
- 1st Qu.:0.9500                                                 
+ 1st Qu.:0.9400                                                 
  Median :0.9800                                                 
- Mean   :0.8727                                                 
+ Mean   :0.8651                                                 
  3rd Qu.:1.0000                                                 
  Max.   :1.0000                                                 
                                                                 
  Percent Hospitals Reporting Total COVID-19 Admissions
- Min.   :0.000                                        
- 1st Qu.:0.970                                        
- Median :0.990                                        
- Mean   :0.946                                        
- 3rd Qu.:1.000                                        
- Max.   :1.000                                        
+ Min.   :0.0000                                       
+ 1st Qu.:0.9700                                       
+ Median :0.9800                                       
+ Mean   :0.9375                                       
+ 3rd Qu.:1.0000                                       
+ Max.   :1.0000                                       
                                                       
  Percent Hospitals Reporting Prevalent COVID-19 Hospitalizations
  Min.   :0.0000                                                 
  1st Qu.:0.9700                                                 
- Median :0.9900                                                 
- Mean   :0.9441                                                 
+ Median :0.9800                                                 
+ Mean   :0.9355                                                 
  3rd Qu.:1.0000                                                 
  Max.   :1.0000                                                 
                                                                 
  Percent Hospitals Reporting Hospitalized COVID-19 ICU Patients
- Min.   :0.00                                                  
- 1st Qu.:0.97                                                  
- Median :0.98                                                  
- Mean   :0.94                                                  
- 3rd Qu.:1.00                                                  
- Max.   :1.00                                                  
+ Min.   :0.0000                                                
+ 1st Qu.:0.9600                                                
+ Median :0.9800                                                
+ Mean   :0.9314                                                
+ 3rd Qu.:1.0000                                                
+ Max.   :1.0000                                                
                                                                </code></pre>
 </div>
 </div>
@@ -816,12 +816,12 @@ date  (1): Week Ending Date
 <pre><code># A tibble: 6 × 8
   `Week Ending Date` `Geographic aggregation` Number Hospitals Reporting Adult…¹
                &lt;dbl&gt; &lt;chr&gt;                                                 &lt;dbl&gt;
-1              18482 AL                                                       60
-2              18489 AL                                                       66
-3              18496 AL                                                       78
-4              18503 AL                                                       90
-5              18510 AL                                                       94
-6              18517 AL                                                       94
+1              18482 AR                                                       66
+2              18489 AR                                                       72
+3              18496 AR                                                       75
+4              18503 AR                                                       76
+5              18510 AR                                                       80
+6              18517 AR                                                       81
 # ℹ abbreviated name: ¹​`Number Hospitals Reporting Adult COVID-19 Admissions`
 # ℹ 5 more variables:
 #   `Weekly Average Percent COVID-19 Inpatient Bed Occupancy` &lt;dbl&gt;,
@@ -833,53 +833,53 @@ date  (1): Week Ending Date
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(selected_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Week Ending Date Geographic aggregation
- Min.   :18482    Length:11628          
- 1st Qu.:18837    Class :character      
- Median :19192    Mode  :character      
- Mean   :19192                          
- 3rd Qu.:19548                          
- Max.   :19903                          
+ Min.   :18482    Length:11799          
+ 1st Qu.:18839    Class :character      
+ Median :19203    Mode  :character      
+ Mean   :19203                          
+ 3rd Qu.:19567                          
+ Max.   :19924                          
                                         
  Number Hospitals Reporting Adult COVID-19 Admissions
  Min.   :   0.0                                      
- 1st Qu.:  33.0                                      
- Median :  72.0                                      
- Mean   : 165.9                                      
- 3rd Qu.: 121.0                                      
- Max.   :4887.0                                      
+ 1st Qu.:  31.0                                      
+ Median :  71.0                                      
+ Mean   : 164.4                                      
+ 3rd Qu.: 116.5                                      
+ Max.   :4886.0                                      
                                                      
  Weekly Average Percent COVID-19 Inpatient Bed Occupancy
  Min.   :0.00000                                        
  1st Qu.:0.01000                                        
  Median :0.03000                                        
- Mean   :0.04431                                        
+ Mean   :0.04387                                        
  3rd Qu.:0.05000                                        
  Max.   :0.35000                                        
- NA's   :183                                            
+ NA's   :196                                            
  Weekly Average COVID-19 Admissions
  Min.   :    0.0                   
  1st Qu.:   11.0                   
- Median :   34.0                   
- Mean   :  170.3                   
- 3rd Qu.:   96.0                   
+ Median :   33.0                   
+ Mean   :  168.3                   
+ 3rd Qu.:   95.0                   
  Max.   :21194.0                   
- NA's   :185                       
+ NA's   :198                       
  Percent Hospitals Reporting Inpatient Beds Occupied
  Min.   :0.0000                                     
  1st Qu.:0.9600                                     
  Median :0.9800                                     
- Mean   :0.9422                                     
+ Mean   :0.9336                                     
  3rd Qu.:1.0000                                     
  Max.   :1.0000                                     
                                                     
  Weekly Average Inpatient Beds Occupied Weekly Average ICU Beds Occupied
  Min.   :     7                         Min.   :    0                   
- 1st Qu.:  1986                         1st Qu.:  249                   
- Median :  5548                         Median :  807                   
- Mean   : 17502                         Mean   : 2490                   
- 3rd Qu.: 11694                         3rd Qu.: 1637                   
- Max.   :538580                         Max.   :82717                   
- NA's   :183                            NA's   :201                     </code></pre>
+ 1st Qu.:  1972                         1st Qu.:  244                   
+ Median :  5473                         Median :  793                   
+ Mean   : 17354                         Mean   : 2468                   
+ 3rd Qu.: 11664                         3rd Qu.: 1626                   
+ Max.   :538455                         Max.   :82717                   
+ NA's   :196                            NA's   :214                     </code></pre>
 </div>
 </div>
 </section>
@@ -891,53 +891,53 @@ date  (1): Week Ending Date
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(selected_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Week Ending Date Geographic aggregation
- Min.   :18482    Length:11628          
- 1st Qu.:18837    Class :character      
- Median :19192    Mode  :character      
- Mean   :19192                          
- 3rd Qu.:19548                          
- Max.   :19903                          
+ Min.   :18482    Length:11799          
+ 1st Qu.:18839    Class :character      
+ Median :19203    Mode  :character      
+ Mean   :19203                          
+ 3rd Qu.:19567                          
+ Max.   :19924                          
                                         
  Number Hospitals Reporting Adult COVID-19 Admissions
  Min.   :   0.0                                      
- 1st Qu.:  33.0                                      
- Median :  72.0                                      
- Mean   : 165.9                                      
- 3rd Qu.: 121.0                                      
- Max.   :4887.0                                      
+ 1st Qu.:  31.0                                      
+ Median :  71.0                                      
+ Mean   : 164.4                                      
+ 3rd Qu.: 116.5                                      
+ Max.   :4886.0                                      
                                                      
  Weekly Average Percent COVID-19 Inpatient Bed Occupancy
  Min.   :0.00000                                        
  1st Qu.:0.01000                                        
  Median :0.03000                                        
- Mean   :0.04431                                        
+ Mean   :0.04387                                        
  3rd Qu.:0.05000                                        
  Max.   :0.35000                                        
- NA's   :183                                            
+ NA's   :196                                            
  Weekly Average COVID-19 Admissions
  Min.   :    0.0                   
  1st Qu.:   11.0                   
- Median :   34.0                   
- Mean   :  170.3                   
- 3rd Qu.:   96.0                   
+ Median :   33.0                   
+ Mean   :  168.3                   
+ 3rd Qu.:   95.0                   
  Max.   :21194.0                   
- NA's   :185                       
+ NA's   :198                       
  Percent Hospitals Reporting Inpatient Beds Occupied
  Min.   :0.0000                                     
  1st Qu.:0.9600                                     
  Median :0.9800                                     
- Mean   :0.9422                                     
+ Mean   :0.9336                                     
  3rd Qu.:1.0000                                     
  Max.   :1.0000                                     
                                                     
  Weekly Average Inpatient Beds Occupied Weekly Average ICU Beds Occupied
  Min.   :     7                         Min.   :    0                   
- 1st Qu.:  1986                         1st Qu.:  249                   
- Median :  5548                         Median :  807                   
- Mean   : 17502                         Mean   : 2490                   
- 3rd Qu.: 11694                         3rd Qu.: 1637                   
- Max.   :538580                         Max.   :82717                   
- NA's   :183                            NA's   :201                     </code></pre>
+ 1st Qu.:  1972                         1st Qu.:  244                   
+ Median :  5473                         Median :  793                   
+ Mean   : 17354                         Mean   : 2468                   
+ 3rd Qu.: 11664                         3rd Qu.: 1626                   
+ Max.   :538455                         Max.   :82717                   
+ NA's   :196                            NA's   :214                     </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -946,7 +946,7 @@ date  (1): Week Ending Date
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">500</span>, <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Weekly Average COVID-19 Admissions"</span>, <span class="at">x =</span> <span class="st">"Weekly Average COVID-19 Admissions"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 185 rows containing non-finite outside the scale range
+<pre><code>Warning: Removed 198 rows containing non-finite outside the scale range
 (`stat_bin()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -961,7 +961,7 @@ date  (1): Week Ending Date
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">500</span>, <span class="at">fill =</span> <span class="st">"black"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Weekly Average Inpatient Beds Occupied"</span>, <span class="at">x =</span> <span class="st">"Weekly Average Inpatient Beds Occupied"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 183 rows containing non-finite outside the scale range
+<pre><code>Warning: Removed 196 rows containing non-finite outside the scale range
 (`stat_bin()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -976,7 +976,7 @@ date  (1): Week Ending Date
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">500</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span></span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Weekly Average ICU Beds Occupied"</span>, <span class="at">x =</span> <span class="st">"Weekly Average ICU Beds Occupied"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 201 rows containing non-finite outside the scale range
+<pre><code>Warning: Removed 214 rows containing non-finite outside the scale range
 (`stat_bin()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -997,16 +997,16 @@ date  (1): Week Ending Date
 <pre><code># A tibble: 57 × 2
    `Geographic aggregation` count
    &lt;chr&gt;                    &lt;int&gt;
- 1 AK                         204
- 2 AL                         204
- 3 AR                         204
- 4 AS                         204
- 5 AZ                         204
- 6 CA                         204
- 7 CO                         204
- 8 CT                         204
- 9 DC                         204
-10 DE                         204
+ 1 AK                         207
+ 2 AL                         207
+ 3 AR                         207
+ 4 AS                         207
+ 5 AZ                         207
+ 6 CA                         207
+ 7 CO                         207
+ 8 CT                         207
+ 9 DC                         207
+10 DE                         207
 # ℹ 47 more rows</code></pre>
 </div>
 </div>
@@ -1035,7 +1035,7 @@ date  (1): Week Ending Date
 <span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Weekly Average COVID-19 Admissions for Selected States"</span>, <span class="at">x =</span> <span class="st">"Geographic Aggregation"</span>, <span class="at">y =</span> <span class="st">"Weekly Average COVID-19 Admissions"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 185 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 198 rows containing missing values or values outside the scale range
 (`geom_bar()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -1051,7 +1051,7 @@ date  (1): Week Ending Date
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot of Weekly Average Percent COVID-19 Inpatient Bed Occupancy by State"</span>, <span class="at">x =</span> <span class="st">"Geographic Aggregation"</span>, <span class="at">y =</span> <span class="st">"Weekly Average Percent COVID-19 Inpatient Bed Occupancy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 183 rows containing non-finite outside the scale range
+<pre><code>Warning: Removed 196 rows containing non-finite outside the scale range
 (`stat_boxplot()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -1079,7 +1079,7 @@ date  (1): Week Ending Date
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot of Weekly Average Inpatient Beds Occupied by State"</span>, <span class="at">x =</span> <span class="st">"Geographic Aggregation"</span>, <span class="at">y =</span> <span class="st">"Weekly Average Inpatient Beds Occupied"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 183 rows containing non-finite outside the scale range
+<pre><code>Warning: Removed 196 rows containing non-finite outside the scale range
 (`stat_boxplot()`).</code></pre>
 </div>
 <div class="cell-output-display">
@@ -1095,7 +1095,7 @@ date  (1): Week Ending Date
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot of Weekly Average ICU Beds Occupied by State"</span>, <span class="at">x =</span> <span class="st">"Geographic Aggregation"</span>, <span class="at">y =</span> <span class="st">"Weekly Average ICU Beds Occupied"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 201 rows containing non-finite outside the scale range
+<pre><code>Warning: Removed 214 rows containing non-finite outside the scale range
 (`stat_boxplot()`).</code></pre>
 </div>
 <div class="cell-output-display">
